@@ -1,4 +1,3 @@
-
 /**
  * A model of the horse to race with for the program HorseRaceSimulator.
  *
@@ -29,7 +28,7 @@ public class Horse
     {
         this.horseSymbol = horseSymbol;
         this.horseName = horseName;
-        this.horseConfidence = horseConfidence;
+        this.horseConfidence = confidenceValidate(horseConfidence);
         this.distanceTravelled = 0;
         this.hasFallen = false;
     }
@@ -93,7 +92,7 @@ public class Horse
 
     public void setConfidence(double newConfidence)
     {
-        horseConfidence = newConfidence;
+        horseConfidence = confidenceValidate(newConfidence);
     }
 
     public void setSymbol(char newSymbol)
@@ -101,4 +100,21 @@ public class Horse
         horseSymbol = newSymbol;
     }
 
+    //Other methods
+
+    public double confidenceValidate(double confidence)
+    {
+        if (confidence < 0)
+        {
+            return 0.1;
+        }
+        else if (confidence > 1)
+        {
+            return 1;
+        }
+        else
+        {
+            return confidence;
+        }
+    }
 }

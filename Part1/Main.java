@@ -1,4 +1,3 @@
-@SuppressWarnings("WrongPackageStatement")
 public class Main {
     public static void main(String[] args)
     {
