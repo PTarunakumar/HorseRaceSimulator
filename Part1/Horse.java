@@ -22,7 +22,7 @@ public class Horse
      *
      * @param horseSymbol the symbol that represents the horse
      * @param horseName the name of the horse
-     * @param horseConfidence the confidence of the horse, the higher the confidence the more likely the horse is to move forward, but also a higher chance of falling
+     * @param horseConfidence the confidence of the horse. Must be between 0 exclusive and 1 inclusive, if outside range then sets to 0.1 and 1 respectively.
      */
     public Horse(char horseSymbol, String horseName, double horseConfidence)
     {
@@ -104,7 +104,7 @@ public class Horse
 
     public double confidenceValidate(double confidence)
     {
-        if (confidence < 0)
+        if (confidence <= 0)
         {
             return 0.1;
         }
