@@ -54,6 +54,7 @@ public class Race
     {
         //declare a local variable to tell us when the race is finished
         boolean finished = false;
+        boolean allFallen = false;
 
         //reset all the lanes (all horses not fallen and back to 0).
         for(int i = 0; i < 3; i++)
@@ -75,11 +76,25 @@ public class Race
             //if any of the three horses has won the race is finished
             for (int i = 0; i < 3; i++)
             {
-                if (raceWonBy(horses[i]))
-                {
+                if (raceWonBy(horses[i])) {
                     System.out.println(horses[i].getName() + " wins!");
                     finished = true;
                 }
+            }
+
+            //if all horses have fallen
+            allFallen = true;
+            for (int i = 0; i < 3; i++)
+            {
+                if (!horses[i].hasFallen())
+                {
+                    allFallen = false;
+                }
+            }
+            if (allFallen)
+            {
+                System.out.println("All horses have fallen!");
+                finished = true;
             }
 
             //wait for 100 milliseconds
