@@ -74,6 +74,14 @@ public class Horse
     }
 
     /**
+     * Set the horse to not fallen so it can move forward
+     */
+    public void rise()
+    {
+        hasFallen = false;
+    }
+
+    /**
      * Puts the horse to the start.
      */
     public void goBackToStart()
