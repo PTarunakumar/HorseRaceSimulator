@@ -58,6 +58,7 @@ public class Race
         //reset all the lanes (all horses not fallen and back to 0).
         for(int i = 0; i < 3; i++)
         {
+            horses[i].rise();
             horses[i].goBackToStart();
         }
 
@@ -76,6 +77,7 @@ public class Race
             {
                 if (raceWonBy(horses[i]))
                 {
+                    System.out.println(horses[i].getName() + " wins!");
                     finished = true;
                 }
             }
