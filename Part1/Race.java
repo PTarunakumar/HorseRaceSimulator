@@ -79,10 +79,12 @@ public class Race
             printRace();
 
             //if any of the three horses has won the race is finished
+            //if a horse wins, its confidence is increased by 20%, and it is displayed as the winner
             for (int i = 0; i < 3; i++)
             {
                 if (horses[i] != null && raceWonBy(horses[i])) {
                     System.out.println(horses[i].getName() + " wins!");
+                    horses[i].setConfidence(horses[i].getConfidence() * 1.2);
                     finished = true;
                 }
             }
@@ -123,8 +125,10 @@ public class Race
             //the probability that the horse will fall is very small (max is 0.1)
             //but will also will depends exponentially on confidence
             //so if you double the confidence, the probability that it will fall is *2
+            //when the horse falls, its confidence is reduced by 20%
             if (Math.random() < (0.1*theHorse.getConfidence()*theHorse.getConfidence()))
             {
+                theHorse.setConfidence(theHorse.getConfidence() * 0.8);
                 theHorse.fall();
             }
         }
