@@ -2,7 +2,7 @@ public class Main {
     public static void main(String[] args)
     {
         // Initialising race and horses
-        Race race = new Race(10);
+        Race race = new Race(10, 4);
         Horse horse1 = new Horse('1', "Horse1", 0.9);
         Horse horse2 = new Horse('2', "Horse2", 0.7);
         Horse horse3 = new Horse('3', "horse3", 0.8);

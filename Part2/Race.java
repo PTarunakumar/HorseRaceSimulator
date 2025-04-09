@@ -1,5 +1,7 @@
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
+import java.util.List;
+import java.util.ArrayList;
 
 /**
  * A three-horse race, each horse running in its own lane
@@ -11,7 +13,7 @@ import java.lang.Math;
 public class Race
 {
     private int raceLength;
-    private Horse[] horses;
+    private List<Horse> horses;
 
     /**
      * Constructor for objects of class Race
@@ -19,11 +21,15 @@ public class Race
      *
      * @param distance the length of the racetrack (in metres/yards...)
      */
-    public Race(int distance)
-    {
+    public Race(int distance, int laneCount) {
         // initialise instance variables
         raceLength = distance;
-        horses = new Horse[3];
+        horses = new ArrayList<Horse>(laneCount);
+
+        // Initially, all lanes are empty
+        for (int i = 0; i < laneCount; i++) {
+            horses.add(null);
+        }
     }
 
     /**
@@ -34,11 +40,10 @@ public class Race
      */
     public void addHorse(Horse theHorse, int laneNumber)
     {
-        if (laneNumber < 4 && laneNumber > 0)
+        try
         {
-            horses[laneNumber-1] = theHorse;
-        }
-        else
+            horses.set(laneNumber-1, theHorse);
+        } catch (IndexOutOfBoundsException e)
         {
             System.out.println("Cannot add horse to lane " + laneNumber + " because there is no such lane");
         }
@@ -56,23 +61,23 @@ public class Race
         boolean finished = false;
 
         //reset all the lanes (all horses not fallen and back to 0).
-        for(int i = 0; i < 3; i++)
+        for(Horse horse : horses)
         {
-            if (horses[i] != null)
+            if (horse != null)
             {
-                horses[i].rise();
-                horses[i].goBackToStart();
+                horse.rise();
+                horse.goBackToStart();
             }
         }
 
         while (!finished)
         {
             //move each horse
-            for (int i = 0; i < 3; i++)
+            for (Horse horse : horses)
             {
-                if (horses[i] != null)
+                if (horse != null)
                 {
-                    moveHorse(horses[i]);
+                    moveHorse(horse);
                 }
             }
             //print the race positions
@@ -80,11 +85,11 @@ public class Race
 
             //if any of the three horses has won the race is finished
             //if a horse wins, its confidence is increased by 20%, and it is displayed as the winner
-            for (int i = 0; i < 3; i++)
+            for (Horse horse : horses)
             {
-                if (horses[i] != null && raceWonBy(horses[i])) {
-                    System.out.println(horses[i].getName() + " wins!");
-                    horses[i].setConfidence(horses[i].getConfidence() * 1.2);
+                if (horse != null && raceWonBy(horse)) {
+                    System.out.println(horse.getName() + " wins!");
+                    horse.setConfidence(horse.getConfidence() * 1.2);
                     finished = true;
                 }
             }
@@ -142,14 +147,7 @@ public class Race
      */
     private boolean raceWonBy(Horse theHorse)
     {
-        if (theHorse.getDistanceTravelled() == raceLength)
-        {
-            return true;
-        }
-        else
-        {
-            return false;
-        }
+        return theHorse.getDistanceTravelled() == raceLength;
     }
 
     /***
@@ -162,9 +160,9 @@ public class Race
         multiplePrint('=',raceLength+3); //top edge of track
         System.out.println();
 
-        for (int i = 0; i < 3; i++)
+        for (Horse horse : horses)
         {
-            printLane(horses[i]);
+            printLane(horse);
             System.out.println();
         }
 
@@ -249,9 +247,9 @@ public class Race
     private boolean allFallen()
     {
         boolean allFallen = true;
-        for (int i = 0; i < 3; i++)
+        for (Horse horse: horses)
         {
-            if (horses[i] != null && !horses[i].hasFallen())
+            if (horse != null && !horse.hasFallen())
             {
                 allFallen = false;
             }
