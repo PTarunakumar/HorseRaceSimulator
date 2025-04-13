@@ -1,3 +1,4 @@
+import javax.swing.*;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
 import java.util.List;
@@ -13,6 +14,7 @@ import java.util.ArrayList;
 public class Race
 {
     private int raceLength;
+    private String trackType;
     private List<Horse> horses;
 
     /**
@@ -21,15 +23,37 @@ public class Race
      *
      * @param distance the length of the racetrack (in metres/yards...)
      */
-    public Race(int distance, int laneCount) {
+    public Race(int distance, int laneCount, String trackType) {
         // initialise instance variables
         raceLength = distance;
         horses = new ArrayList<Horse>(laneCount);
+        this.trackType = trackType;
 
         // Initially, all lanes are empty
         for (int i = 0; i < laneCount; i++) {
             horses.add(null);
         }
+    }
+
+    //Getters
+    public int getRaceLength()
+    {
+        return raceLength;
+    }
+
+    public int getLaneCount()
+    {
+        return horses.size();
+    }
+
+    public List<Horse> getHorses()
+    {
+        return horses;
+    }
+
+    public String getTrackType()
+    {
+        return trackType;
     }
 
     /**
@@ -55,6 +79,27 @@ public class Race
      * then repeatedly moved forward until the
      * race is finished
      */
+
+    public static void startGUIRace()
+    {
+        IntroGUI introGUI = new IntroGUI(new JFrame());
+        if (introGUI.getReturnedValue() == 1)
+        {
+            System.exit(0);
+        }
+
+        AddTrackGUI addTrackGUI = new AddTrackGUI(new JFrame());
+        Race race = addTrackGUI.getRace();
+
+        for (int i = 1; i <= race.getLaneCount(); i++)
+        {
+            AddHorseGUI theHorse = new AddHorseGUI(new JFrame());
+            race.addHorse(theHorse.getHorse(), i);
+        }
+
+        RaceGUI raceGUI = new RaceGUI(race);
+    }
+
     public void startRace()
     {
         //declare a local variable to tell us when the race is finished
@@ -115,7 +160,7 @@ public class Race
      *
      * @param theHorse the horse to be moved
      */
-    private void moveHorse(Horse theHorse)
+    public void moveHorse(Horse theHorse)
     {
         //if the horse has fallen it cannot move,
         //so only run if it has not fallen
@@ -145,7 +190,7 @@ public class Race
      * @param theHorse The horse we are testing
      * @return true if the horse has won, false otherwise.
      */
-    private boolean raceWonBy(Horse theHorse)
+    public boolean raceWonBy(Horse theHorse)
     {
         return theHorse.getDistanceTravelled() == raceLength;
     }
@@ -244,7 +289,7 @@ public class Race
     /**
      * Checks if all horses have fallen
      */
-    private boolean allFallen()
+    public boolean allFallen()
     {
         boolean allFallen = true;
         for (Horse horse: horses)
@@ -256,4 +301,6 @@ public class Race
         }
         return allFallen;
     }
+
+
 }

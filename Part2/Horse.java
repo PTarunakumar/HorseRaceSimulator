@@ -1,3 +1,8 @@
+import javax.swing.*;
+import java.awt.*;
+import java.util.ArrayList;
+import java.util.HashMap;
+
 /**
  * A model of the horse to race with for the program HorseRaceSimulator.
  *
@@ -10,8 +15,28 @@ public class Horse
     private char horseSymbol;
     private String horseName;
     private double horseConfidence;
+    private String horseBreed;
+    private Color horseCoatColor;
+    private String horseAccessory;
     private int distanceTravelled;
     private boolean hasFallen;
+
+    public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
+    {
+        {
+            put("Horse", new ImageIcon("Part2/Icons/horse.png"));
+            put("Unicorn", new ImageIcon("Part2/Icons/unicorn.png"));
+            put("Pegasus", new ImageIcon("Part2/Icons/pegasus.png"));
+        }
+    };
+
+    public static ArrayList<String> accessoryList = new ArrayList<>()
+    {
+        {
+            add("Horseshoes");
+            add("Saddle");
+        }
+    };
 
 
 
@@ -24,11 +49,15 @@ public class Horse
      * @param horseName the name of the horse
      * @param horseConfidence the confidence of the horse. Must be between 0 exclusive and 1 inclusive, if outside range then sets to 0.1 and 1 respectively.
      */
-    public Horse(char horseSymbol, String horseName, double horseConfidence)
+    public Horse(char horseSymbol, String horseName, double horseConfidence, String horseBreed, String horseAccessory, Color horseCoatColor)
     {
+        //initialise instance variables
         this.horseSymbol = horseSymbol;
         this.horseName = horseName;
         this.horseConfidence = confidenceValidate(horseConfidence);
+        this.horseBreed = horseBreed;
+        this.horseCoatColor = horseCoatColor;
+        this.horseAccessory = horseAccessory;
         this.distanceTravelled = 0;
         this.hasFallen = false;
     }
@@ -48,6 +77,23 @@ public class Horse
     public String getName()
     {
         return horseName;
+    }
+
+    public String getBreed()
+    {
+        return horseBreed;
+    }
+    public String getAccessory()
+    {
+        return horseAccessory;
+    }
+    public Color getCoatColor()
+    {
+        return horseCoatColor;
+    }
+    public ImageIcon getBreedIcon()
+    {
+        return breedIcons.get(horseBreed);
     }
 
     public char getSymbol()
