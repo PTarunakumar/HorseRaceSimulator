@@ -1,5 +1,7 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -38,42 +40,17 @@ public class RaceGUI {
         racePanel.add(trackPanel);
         RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
 
-        while (true)
-        {
-            //move each horse
-            for (Horse horse : race.getHorses())
-            {
-                if (horse != null)
-                {
-                    race.moveHorse(horse);
-                }
+        button1.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new Thread(new Runnable() {
+                    @Override
+                    public void run() {
+                        startRace(race);
+                    }
+                }).start();
             }
-            //print the race positions
-            printRace(race);
-
-            //if any of the three horses has won the race is finished
-            //if a horse wins, its confidence is increased by 20%, and it is displayed as the winner
-            for (Horse horse : race.getHorses())
-            {
-                if (horse != null && race.raceWonBy(horse)) {
-                    JOptionPane.showMessageDialog(null, horse.getName() + " wins!");
-                    horse.setConfidence(horse.getConfidence() * 1.2);
-                    System.exit(0);
-                }
-            }
-
-            //if all horses have fallen
-            if (race.allFallen())
-            {
-                JOptionPane.showMessageDialog(null, "All horses have fallen");
-                System.exit(0);
-            }
-
-            //wait for 100 milliseconds
-            try{
-                TimeUnit.MILLISECONDS.sleep(100);
-            }catch(Exception e){}
-        }
+        });
     }
 
     void startRace(Race race)
@@ -95,7 +72,12 @@ public class RaceGUI {
                 }
             }
             //print the race positions
-            printRace(race);
+            SwingUtilities.invokeLater(new Runnable() {
+                @Override
+                public void run() {
+                    printRace(race);
+                }
+            });
 
             //if any of the three horses has won the race is finished
             //if a horse wins, its confidence is increased by 20%, and it is displayed as the winner
