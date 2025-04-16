@@ -9,7 +9,9 @@ import java.util.concurrent.TimeUnit;
 public class RaceGUI {
     private JFrame frame;
     private JPanel racePanel;
-    private JButton button1;
+    private JButton startRaceButton;
+    private JButton bettingButton;
+    private JButton statisticsButton;
     private JPanel trackPanel;
     final static int TRACK_DISTANCE = 600;
     final static int ICON_SIZE = 60;
@@ -40,7 +42,7 @@ public class RaceGUI {
         racePanel.add(trackPanel);
         RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
 
-        button1.addActionListener(new ActionListener() {
+        startRaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 new Thread(new Runnable() {

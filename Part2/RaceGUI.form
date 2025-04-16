@@ -19,16 +19,6 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
-      <component id="d2ce8" class="javax.swing.JButton" binding="button1" default-binding="true">
-        <constraints>
-          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
-          <gridbag weightx="0.0" weighty="0.0"/>
-        </constraints>
-        <properties>
-          <horizontalTextPosition value="0"/>
-          <text value="Button"/>
-        </properties>
-      </component>
       <vspacer id="ab6d9">
         <constraints>
           <grid row="4" column="1" row-span="1" col-span="1" vsize-policy="6" hsize-policy="1" anchor="0" fill="2" indent="0" use-parent-layout="false"/>
@@ -41,6 +31,35 @@
           <gridbag weightx="0.0" weighty="0.0"/>
         </constraints>
       </vspacer>
+      <grid id="61a00" layout-manager="FlowLayout" hgap="5" vgap="5" flow-align="1">
+        <constraints>
+          <grid row="3" column="1" row-span="1" col-span="1" vsize-policy="3" hsize-policy="3" anchor="0" fill="3" indent="0" use-parent-layout="false"/>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties/>
+        <border type="none"/>
+        <children>
+          <component id="d2ce8" class="javax.swing.JButton" binding="startRaceButton">
+            <constraints/>
+            <properties>
+              <horizontalTextPosition value="0"/>
+              <text value="Start Race"/>
+            </properties>
+          </component>
+          <component id="ccba8" class="javax.swing.JButton" binding="bettingButton">
+            <constraints/>
+            <properties>
+              <text value="Betting"/>
+            </properties>
+          </component>
+          <component id="336c1" class="javax.swing.JButton" binding="statisticsButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Statistics"/>
+            </properties>
+          </component>
+        </children>
+      </grid>
     </children>
   </grid>
 </form>
