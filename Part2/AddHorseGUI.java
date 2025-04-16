@@ -110,7 +110,7 @@ public class AddHorseGUI extends JDialog{
 
     private boolean breedValidate()
     {
-        return !breedComboBox.getSelectedItem().toString().isEmpty();
+        return !breedComboBox.getSelectedItem().toString().equals(" ");
     }
 
     private double calculateConfidence(int confidence)
