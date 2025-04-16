@@ -20,6 +20,8 @@ public class Horse
     private String horseAccessory;
     private int distanceTravelled;
     private boolean hasFallen;
+    private int winCount;
+    private int raceParticipationCount;
 
     public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
     {
@@ -60,10 +62,20 @@ public class Horse
         this.horseAccessory = horseAccessory;
         this.distanceTravelled = 0;
         this.hasFallen = false;
+        this.winCount = 0;
+        this.raceParticipationCount = 0;
     }
 
     //Getters
 
+    public int getWinCount()
+    {
+        return winCount;
+    }
+    public int getRaceParticipationCount()
+    {
+        return raceParticipationCount;
+    }
     public double getConfidence()
     {
         return horseConfidence;
@@ -111,6 +123,15 @@ public class Horse
 
     //Setters
 
+    public void setRaceParticipationCount(int raceParticipationCount)
+    {
+        this.raceParticipationCount = raceParticipationCount;
+    }
+
+    public void setWinCount(int winCount)
+    {
+        this.winCount = winCount;
+    }
     /**
      * Set the horse to fallen so it cannot move forward
      */

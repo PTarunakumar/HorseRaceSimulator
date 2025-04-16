@@ -67,6 +67,7 @@ public class Race
         try
         {
             horses.set(laneNumber-1, theHorse);
+            theHorse.setRaceParticipationCount(theHorse.getRaceParticipationCount() + 1);
         } catch (IndexOutOfBoundsException e)
         {
             System.out.println("Cannot add horse to lane " + laneNumber + " because there is no such lane");
@@ -134,6 +135,7 @@ public class Race
             {
                 if (horse != null && raceWonBy(horse)) {
                     System.out.println(horse.getName() + " wins!");
+                    horse.setWinCount(horse.getWinCount() + 1);
                     horse.setConfidence(horse.getConfidence() * 1.2);
                     finished = true;
                 }
