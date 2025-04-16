@@ -29,4 +29,10 @@ public class RaceFrameHandler {
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
     }
+
+    static public void initialiseDisposableFrame(JFrame frame, JPanel startPanel)
+    {
+        initialiseFrame(frame, startPanel);
+        frame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
+    }
 }

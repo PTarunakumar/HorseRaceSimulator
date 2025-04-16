@@ -53,17 +53,26 @@ public class RaceGUI {
                 }).start();
             }
         });
+
+        statisticsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new StatisticsGUI(race);
+            }
+        });
     }
 
     void startRace(Race race)
     {
         for (Horse horse : race.getHorses())
         {
+            horse.setTotalRaces(horse.getTotalRaces() + 1);
             horse.goBackToStart();
             horse.rise();
         }
 
-        while (true)
+        boolean finished = false;
+        while (!finished)
         {
             //move each horse
             for (Horse horse : race.getHorses())
@@ -87,8 +96,9 @@ public class RaceGUI {
             {
                 if (horse != null && race.raceWonBy(horse)) {
                     JOptionPane.showMessageDialog(null, horse.getName() + " wins!");
+                    horse.setTotalWins(horse.getTotalWins() + 1);
                     horse.setConfidence(horse.getConfidence() * 1.2);
-                    System.exit(0);
+                    finished = true;
                 }
             }
 
@@ -96,7 +106,7 @@ public class RaceGUI {
             if (race.allFallen())
             {
                 JOptionPane.showMessageDialog(null, "All horses have fallen");
-                System.exit(0);
+                finished = true;
             }
 
             //wait for 100 milliseconds
