@@ -29,6 +29,18 @@ public class AddHorseGUI extends JDialog{
     {
         super(parent, "Add Horse", true);
 
+        breedComboBox.setRenderer(new DefaultListCellRenderer() {
+            @Override
+            public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
+                JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
+                if (value instanceof String item) {
+                    label.setText(item);
+                    label.setIcon(Horse.breedIcons.get(item));
+                }
+                return label;
+            }
+        });
+
         breedComboBox.addItem(" ");
         for (String item : Horse.breedIcons.keySet()) {
             breedComboBox.addItem(item);
