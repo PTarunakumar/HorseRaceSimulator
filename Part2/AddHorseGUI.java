@@ -89,9 +89,6 @@ public class AddHorseGUI extends JDialog{
 
         RaceFrameHandler.initialiseDialog(this,addPanel);
     }
-    private void createUIComponents() {
-        // TODO: place custom component creation code here
-    }
 
     public Horse getHorse()
     {
