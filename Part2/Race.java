@@ -16,6 +16,7 @@ public class Race
     private int raceLength;
     private String trackType;
     private List<Horse> horses;
+    private boolean finished;
 
     /**
      * Constructor for objects of class Race
@@ -25,6 +26,7 @@ public class Race
      */
     public Race(int distance, int laneCount, String trackType) {
         // initialise instance variables
+        finished = false;
         raceLength = distance;
         horses = new ArrayList<Horse>(laneCount);
         this.trackType = trackType;
@@ -36,6 +38,10 @@ public class Race
     }
 
     //Getters
+    public boolean getFinished()
+    {
+        return finished;
+    }
     public int getRaceLength()
     {
         return raceLength;
@@ -54,6 +60,11 @@ public class Race
     public String getTrackType()
     {
         return trackType;
+    }
+
+    public void setFinished(boolean finished)
+    {
+        this.finished = finished;
     }
 
     /**
@@ -104,7 +115,6 @@ public class Race
     public void startRace()
     {
         //declare a local variable to tell us when the race is finished
-        boolean finished = false;
 
         //reset all the lanes (all horses not fallen and back to 0).
         for(Horse horse : horses)
@@ -153,6 +163,8 @@ public class Race
                 TimeUnit.MILLISECONDS.sleep(100);
             }catch(Exception e){}
         }
+
+        finished = false;
     }
 
     /**

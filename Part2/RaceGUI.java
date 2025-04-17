@@ -60,19 +60,27 @@ public class RaceGUI {
                 new StatisticsGUI(race);
             }
         });
+
+        bettingButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new BettingGUI(race, new User("PT", 1100));
+            }
+        });
     }
 
     void startRace(Race race)
     {
         for (Horse horse : race.getHorses())
         {
+            race.setFinished(false);
             horse.setTotalRaces(horse.getTotalRaces() + 1);
             horse.goBackToStart();
             horse.rise();
         }
 
-        boolean finished = false;
-        while (!finished)
+        ;
+        while (!race.getFinished())
         {
             //move each horse
             for (Horse horse : race.getHorses())
@@ -98,7 +106,7 @@ public class RaceGUI {
                     JOptionPane.showMessageDialog(null, horse.getName() + " wins!");
                     horse.setTotalWins(horse.getTotalWins() + 1);
                     horse.setConfidence(horse.getConfidence() * 1.2);
-                    finished = true;
+                    race.setFinished(true);
                 }
             }
 
@@ -106,7 +114,7 @@ public class RaceGUI {
             if (race.allFallen())
             {
                 JOptionPane.showMessageDialog(null, "All horses have fallen");
-                finished = true;
+                race.setFinished(true);
             }
 
             //wait for 100 milliseconds
@@ -114,6 +122,7 @@ public class RaceGUI {
                 TimeUnit.MILLISECONDS.sleep(100);
             }catch(Exception e){}
         }
+        race.setFinished(false);
     }
     void printRace(Race race)
     {

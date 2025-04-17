@@ -42,6 +42,7 @@ public class StatisticsGUI {
                 }
             }
         });
+
         RaceFrameHandler.initialiseDisposableFrame(new JFrame(), statisticsPanel);
     }
 }
