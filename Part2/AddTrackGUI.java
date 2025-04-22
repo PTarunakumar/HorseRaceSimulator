@@ -26,7 +26,11 @@ public class AddTrackGUI extends JDialog{
 
         laneCountCounter.setText(String.valueOf(laneCountSlider.getValue()));
         trackTypeComboBox.addItem(" ");
-        trackTypeComboBox.addItem("Default");
+
+        for(String types: Race.trackTypesList)
+        {
+            trackTypeComboBox.addItem(types);
+        }
 
         laneCountSlider.addChangeListener(new ChangeListener() {
             @Override

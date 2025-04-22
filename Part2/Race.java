@@ -1,4 +1,6 @@
 import javax.swing.*;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
 import java.util.List;
@@ -17,6 +19,74 @@ public class Race
     private String trackType;
     private List<Horse> horses;
     private boolean finished;
+
+    private HashMap<String, Double> windyHorseSpeed = new HashMap<>()
+    {
+        {
+            put("Horse", 1.2);
+            put("Pegasus", 0.95);
+            put("Unicorn", 0.8);
+        }
+    };
+
+    private HashMap<String, Double> wetHorseSpeed = new HashMap<>()
+    {
+        {
+            put("Horse", 0.8);
+            put("Pegasus", 1.0);
+            put("Unicorn", 1.0);
+        }
+    };
+
+    private HashMap<String, Double> windyFallRate = new HashMap<>()
+    {
+        {
+            put("Horse", 0.9);
+            put("Pegasus", 0.65);
+            put("Unicorn", 0.75);
+        }
+    };
+
+    private HashMap<String, Double> wetFallRate = new HashMap<>()
+    {
+        {
+            put("Horse", 0.7);
+            put("Pegasus", 1.0);
+            put("Unicorn", 1.0);
+        }
+    };
+
+    public static HashSet<String> trackTypesList = new HashSet<>()
+    {
+        {
+            add("default");
+            add("windy");
+            add("wet");
+        }
+    };
+    private HashMap<String, HashMap<String, Double>> trackSpeedEffects = new HashMap<>()
+    {
+        {
+            put("windy", windyHorseSpeed);
+            put("wet", wetHorseSpeed);
+        }
+    };
+
+    private HashMap<String, HashMap<String, Double>> trackFallFactorEffects = new HashMap<>()
+    {
+        {
+            put("windy", windyFallRate);
+            put("wet", wetFallRate);
+        }
+    };
+    public void applyTrackEffects()
+    {
+        for (Horse horse: horses)
+        {
+            horse.setHorseSpeed(horse.getHorseSpeed() * trackSpeedEffects.get(trackType).get(horse.getBreed()));
+            horse.setHorseFallRateFactor(horse.getFallRateFactor() * trackFallFactorEffects.get(trackType).get(horse.getBreed()));
+        }
+    }
 
     /**
      * Constructor for objects of class Race
@@ -194,7 +264,7 @@ public class Race
             //but will also will depends exponentially on confidence
             //so if you double the confidence, the probability that it will fall is *2
             //when the horse falls, its confidence is reduced by 20%
-            if (Math.random() < (0.05 * theHorse.getReducedFallRate() * theHorse.getConfidence()*theHorse.getConfidence()))
+            if (Math.random() < (0.05 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence()))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
                 theHorse.fall();

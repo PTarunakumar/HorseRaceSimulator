@@ -73,6 +73,7 @@ public class RaceGUI {
     {
         for (Horse horse : race.getHorses())
         {
+            race.applyTrackEffects();
             race.setFinished(false);
             horse.setTotalRaces(horse.getTotalRaces() + 1);
             horse.goBackToStart();

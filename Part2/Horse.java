@@ -23,7 +23,7 @@ public class Horse
     private int totalWins;
     private int totalRaces;
     private double horseSpeed;
-    private double horseReducedFallRate;
+    private double horseFallRateFactor;
 
 
     public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
@@ -52,7 +52,7 @@ public class Horse
         }
     };
 
-    public static HashMap<String, Double> breedReducedFallRate = new HashMap<>()
+    public static HashMap<String, Double> breedFallRateFactor = new HashMap<>()
     {
         {
             put("Horse", 1.0);
@@ -86,7 +86,7 @@ public class Horse
         this.totalWins = 0;
         this.totalRaces = 0;
         this.horseSpeed = breedSpeed.get(horseBreed);
-        this.horseReducedFallRate = breedReducedFallRate.get(horseBreed);
+        this.horseFallRateFactor = breedFallRateFactor.get(horseBreed);
     }
 
     //Getters
@@ -133,7 +133,7 @@ public class Horse
 
     public double getHorseSpeed() { return horseSpeed; }
 
-    public double getReducedFallRate() { return horseReducedFallRate; }
+    public double getFallRateFactor() { return horseFallRateFactor; }
 
     public char getSymbol()
     {
@@ -149,14 +149,18 @@ public class Horse
     }
 
     //Setters
+
+    public void setHorseFallRateFactor(double horseFallRateFactor) { this.horseFallRateFactor = horseFallRateFactor; }
+
+    public void setHorseSpeed (double horseSpeed) { this.horseSpeed = horseSpeed; }
     public void setDistanceTravelled(int distanceTravelled)
     {
         this.distanceTravelled = distanceTravelled;
     }
 
-    public void setTotalRaces(int raceParticipationCount)
+    public void setTotalRaces(int totalRaces)
     {
-        this.totalRaces = raceParticipationCount;
+        this.totalRaces = totalRaces;
     }
 
     public void setTotalWins(int winCount)
