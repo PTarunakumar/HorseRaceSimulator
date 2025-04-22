@@ -18,10 +18,13 @@ public class Horse
     private String horseBreed;
     private Color horseCoatColor;
     private String horseAccessory;
-    private int distanceTravelled;
+    private double distanceTravelled;
     private boolean hasFallen;
     private int totalWins;
     private int totalRaces;
+    private double horseSpeed;
+    private double horseReducedFallRate;
+
 
     public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
     {
@@ -32,11 +35,29 @@ public class Horse
         }
     };
 
+    public static HashMap<String, Double> breedSpeed = new HashMap<String, Double>()
+    {
+        {
+            put("Horse", 1.8);
+            put("Unicorn",1.6);
+            put("Pegasus", 1.4);
+        }
+    };
+
     public static ArrayList<String> accessoryList = new ArrayList<>()
     {
         {
             add("Horseshoes");
             add("Saddle");
+        }
+    };
+
+    public static HashMap<String, Double> breedReducedFallRate = new HashMap<>()
+    {
+        {
+            put("Horse", 1.0);
+            put("Pegasus", 0.9);
+            put("Unicorn", 0.8);
         }
     };
 
@@ -64,6 +85,8 @@ public class Horse
         this.hasFallen = false;
         this.totalWins = 0;
         this.totalRaces = 0;
+        this.horseSpeed = breedSpeed.get(horseBreed);
+        this.horseReducedFallRate = breedReducedFallRate.get(horseBreed);
     }
 
     //Getters
@@ -81,7 +104,7 @@ public class Horse
         return horseConfidence;
     }
 
-    public int getDistanceTravelled()
+    public double getDistanceTravelled()
     {
         return distanceTravelled;
     }
@@ -108,6 +131,10 @@ public class Horse
         return breedIcons.get(horseBreed);
     }
 
+    public double getHorseSpeed() { return horseSpeed; }
+
+    public double getReducedFallRate() { return horseReducedFallRate; }
+
     public char getSymbol()
     {
         return horseSymbol;
@@ -122,6 +149,10 @@ public class Horse
     }
 
     //Setters
+    public void setDistanceTravelled(int distanceTravelled)
+    {
+        this.distanceTravelled = distanceTravelled;
+    }
 
     public void setTotalRaces(int raceParticipationCount)
     {
@@ -161,8 +192,7 @@ public class Horse
      */
     public void moveForward()
     {
-        final int DISTANCE = 1;
-        distanceTravelled += DISTANCE;
+        distanceTravelled += this.getHorseSpeed();
     }
 
     public void setConfidence(double newConfidence)

@@ -79,7 +79,6 @@ public class RaceGUI {
             horse.rise();
         }
 
-        ;
         while (!race.getFinished())
         {
             //move each horse
@@ -128,7 +127,7 @@ public class RaceGUI {
     {
         for (int i = 0; i < race.getLaneCount(); i++)
         {
-            int xPosition = (int) (TRACK_DISTANCE / (double) race.getRaceLength()) * race.getHorses().get(i).getDistanceTravelled();
+            int xPosition = (int) (TRACK_DISTANCE / (double) race.getRaceLength()) * (int) race.getHorses().get(i).getDistanceTravelled();
             int yPosition = horseLabels.get(i).getLocation().y;
             horseLabels.get(i).setLocation(xPosition, yPosition);
             horseLabels.get(i).repaint();

@@ -186,11 +186,15 @@ public class Race
                 theHorse.moveForward();
             }
 
+            if (theHorse.getDistanceTravelled() > raceLength)
+            {
+                theHorse.setDistanceTravelled(raceLength);
+            }
             //the probability that the horse will fall is very small (max is 0.1)
             //but will also will depends exponentially on confidence
             //so if you double the confidence, the probability that it will fall is *2
             //when the horse falls, its confidence is reduced by 20%
-            if (Math.random() < (0.1*theHorse.getConfidence()*theHorse.getConfidence()))
+            if (Math.random() < (0.05 * theHorse.getReducedFallRate() * theHorse.getConfidence()*theHorse.getConfidence()))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
                 theHorse.fall();
@@ -249,8 +253,8 @@ public class Race
         }
         else
         {
-            spacesBefore = theHorse.getDistanceTravelled();
-            spacesAfter = raceLength - theHorse.getDistanceTravelled();
+            spacesBefore = (int) theHorse.getDistanceTravelled();
+            spacesAfter = raceLength - (int) theHorse.getDistanceTravelled();
         }
 
         //print a | for the beginning of the lane
