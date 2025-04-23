@@ -136,7 +136,6 @@ public class Horse
         BufferedImage image = new BufferedImage(getBreedIcon().getIconWidth(), getBreedIcon().getIconHeight(), BufferedImage.TYPE_INT_ARGB);
         Graphics2D g2d = image.createGraphics();
         g2d.drawImage(getBreedIcon().getImage(), 0, 0, null);
-        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
         for (int i = 0; i < getBreedIcon().getIconWidth(); i++)
         {
             for (int j = 0; j < getBreedIcon().getIconHeight(); j++)
