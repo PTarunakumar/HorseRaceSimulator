@@ -131,6 +131,33 @@ public class Horse
         return breedIcons.get(horseBreed);
     }
 
+    public ImageIcon getColouredBreedIcon()
+    {
+        BufferedImage image = new BufferedImage(getBreedIcon().getIconWidth(), getBreedIcon().getIconHeight(), BufferedImage.TYPE_INT_ARGB);
+        Graphics2D g2d = image.createGraphics();
+        g2d.drawImage(getBreedIcon().getImage(), 0, 0, null);
+        g2d.setRenderingHint(RenderingHints.KEY_ANTIALIASING, RenderingHints.VALUE_ANTIALIAS_ON);
+        for (int i = 0; i < getBreedIcon().getIconWidth(); i++)
+        {
+            for (int j = 0; j < getBreedIcon().getIconHeight(); j++)
+            {
+                //If its not transparent
+                if (image.getRGB(i, j) != 0)
+                {
+                    image.setRGB(i, j, horseCoatColor.getRGB());
+                }
+                else
+                {
+                    image.setRGB(i, j, image.getRGB(i, j));
+                }
+
+            }
+        }
+
+        g2d.dispose();
+        return new ImageIcon(image);
+    }
+
     public double getHorseSpeed() { return horseSpeed; }
 
     public double getFallRateFactor() { return horseFallRateFactor; }
