@@ -90,7 +90,14 @@ public class RaceGUI {
             JLabel horseLabel = new JLabel(scaleImage(horse.getColouredBreedIcon()));
             horseLabel.setBounds(0, 0, ICON_SIZE, ICON_SIZE);
             horseLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
+
+            JLabel horseSymbolLabel = new JLabel(String.valueOf(horse.getSymbol()));
+            horseSymbolLabel.setBounds(TRACK_DISTANCE - 20, 0, ICON_SIZE , ICON_SIZE);
+            horseSymbolLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
+            horseSymbolLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
             horsePanel.add(horseLabel);
+            horsePanel.add(horseSymbolLabel);
             trackPanel.add(horsePanel);
             horseLabels.add(horseLabel);
         }
