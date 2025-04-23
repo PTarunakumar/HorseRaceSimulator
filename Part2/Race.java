@@ -1,6 +1,4 @@
 import javax.swing.*;
-import java.util.HashMap;
-import java.util.HashSet;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
 import java.util.List;
@@ -26,91 +24,18 @@ public class Race
         this.trackType = trackType;
     }
 
-    private HashMap<String, Double> defaultHorseSpeed = new HashMap<>()
-    {
-        {
-            put("Horse", 1.0);
-            put("Pegasus", 1.0);
-            put("Unicorn", 1.0);
-        }
-    };
-
-    private HashMap<String, Double> windyHorseSpeed = new HashMap<>()
-    {
-        {
-            put("Horse", 1.2);
-            put("Pegasus", 0.95);
-            put("Unicorn", 0.8);
-        }
-    };
-
-    private HashMap<String, Double> wetHorseSpeed = new HashMap<>()
-    {
-        {
-            put("Horse", 0.8);
-            put("Pegasus", 1.0);
-            put("Unicorn", 1.0);
-        }
-    };
-
-    private HashMap<String, Double> windyFallRate = new HashMap<>()
-    {
-        {
-            put("Horse", 0.9);
-            put("Pegasus", 0.65);
-            put("Unicorn", 0.75);
-        }
-    };
-
-    private HashMap<String, Double> defaultFallRate = new HashMap<>()
-    {
-        {
-            put("Horse", 1.0);
-            put("Pegasus", 1.0);
-            put("Unicorn", 1.0);
-        }
-    };
-
-    private HashMap<String, Double> wetFallRate = new HashMap<>()
-    {
-        {
-            put("Horse", 0.7);
-            put("Pegasus", 1.0);
-            put("Unicorn", 1.0);
-        }
-    };
-
-    public static HashSet<String> trackTypesList = new HashSet<>()
-    {
-        {
-            add("default");
-            add("windy");
-            add("wet");
-        }
-    };
-    private HashMap<String, HashMap<String, Double>> trackSpeedEffects = new HashMap<>()
-    {
-        {
-            put("default", defaultHorseSpeed);
-            put("windy", windyHorseSpeed);
-            put("wet", wetHorseSpeed);
-        }
-    };
-
-    private HashMap<String, HashMap<String, Double>> trackFallFactorEffects = new HashMap<>()
-    {
-        {
-            put("default", defaultFallRate);
-            put("windy", windyFallRate);
-            put("wet", wetFallRate);
-        }
-    };
     public void applyTrackEffects()
     {
         for (Horse horse: horses)
         {
-            horse.setHorseSpeed(horse.getHorseSpeed() * trackSpeedEffects.get(trackType).get(horse.getBreed()));
-            horse.setHorseFallRateFactor(horse.getFallRateFactor() * trackFallFactorEffects.get(trackType).get(horse.getBreed()));
+            double trackSpeedEffect = raceEffects.trackSpeedEffects.get(trackType).get(horse.getBreed());
+            double trackFallFactorEffect = raceEffects.trackFallFactorEffects.get(trackType).get(horse.getBreed());
+
+            double accessorySpeedEffect = raceEffects.accessorySpeedEffects.get(horse.getAccessory());
+            double accessoryFallFactorEffect = raceEffects.accessoryFallFactorEffects.get(horse.getAccessory());
+
+            horse.setHorseSpeed(horse.getHorseSpeed() * trackSpeedEffect * accessorySpeedEffect);
+            horse.setHorseFallRateFactor(horse.getFallRateFactor() * trackFallFactorEffect * accessoryFallFactorEffect);
         }
     }
 

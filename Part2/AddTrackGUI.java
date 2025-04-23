@@ -5,6 +5,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 
+
 public class AddTrackGUI extends JDialog{
     private Race race;
     private JFrame frame;
@@ -27,7 +28,7 @@ public class AddTrackGUI extends JDialog{
         laneCountCounter.setText(String.valueOf(laneCountSlider.getValue()));
         trackTypeComboBox.addItem(" ");
 
-        for(String types: Race.trackTypesList)
+        for(String types: raceEffects.trackTypesList)
         {
             trackTypeComboBox.addItem(types);
         }

@@ -1,6 +1,4 @@
 import javax.swing.*;
-import javax.swing.event.ChangeEvent;
-import javax.swing.event.ChangeListener;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
@@ -21,7 +19,7 @@ public class CustomiseTrackGUI extends JDialog{
 
         trackTypeComboBox.addItem(" ");
 
-        for(String types: Race.trackTypesList)
+        for(String types: raceEffects.trackTypesList)
         {
             trackTypeComboBox.addItem(types);
         }
