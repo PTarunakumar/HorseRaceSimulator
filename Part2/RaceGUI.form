@@ -58,6 +58,12 @@
               <text value="Statistics"/>
             </properties>
           </component>
+          <component id="cf93c" class="javax.swing.JButton" binding="customiseTrackButton" default-binding="true">
+            <constraints/>
+            <properties>
+              <text value="Customise Track"/>
+            </properties>
+          </component>
         </children>
       </grid>
     </children>

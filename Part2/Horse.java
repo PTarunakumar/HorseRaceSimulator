@@ -1,5 +1,6 @@
 import javax.swing.*;
 import java.awt.*;
+import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
 
@@ -140,7 +141,7 @@ public class Horse
         {
             for (int j = 0; j < getBreedIcon().getIconHeight(); j++)
             {
-                //If its not transparent
+                //If it's not transparent
                 if (image.getRGB(i, j) != 0)
                 {
                     image.setRGB(i, j, horseCoatColor.getRGB());

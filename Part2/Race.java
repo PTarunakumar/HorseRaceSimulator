@@ -20,6 +20,21 @@ public class Race
     private List<Horse> horses;
     private boolean finished;
 
+    public void changeTrack(int raceLength, String trackType)
+    {
+        this.raceLength = raceLength;
+        this.trackType = trackType;
+    }
+
+    private HashMap<String, Double> defaultHorseSpeed = new HashMap<>()
+    {
+        {
+            put("Horse", 1.0);
+            put("Pegasus", 1.0);
+            put("Unicorn", 1.0);
+        }
+    };
+
     private HashMap<String, Double> windyHorseSpeed = new HashMap<>()
     {
         {
@@ -47,6 +62,15 @@ public class Race
         }
     };
 
+    private HashMap<String, Double> defaultFallRate = new HashMap<>()
+    {
+        {
+            put("Horse", 1.0);
+            put("Pegasus", 1.0);
+            put("Unicorn", 1.0);
+        }
+    };
+
     private HashMap<String, Double> wetFallRate = new HashMap<>()
     {
         {
@@ -67,6 +91,7 @@ public class Race
     private HashMap<String, HashMap<String, Double>> trackSpeedEffects = new HashMap<>()
     {
         {
+            put("default", defaultHorseSpeed);
             put("windy", windyHorseSpeed);
             put("wet", wetHorseSpeed);
         }
@@ -75,6 +100,7 @@ public class Race
     private HashMap<String, HashMap<String, Double>> trackFallFactorEffects = new HashMap<>()
     {
         {
+            put("default", defaultFallRate);
             put("windy", windyFallRate);
             put("wet", wetFallRate);
         }

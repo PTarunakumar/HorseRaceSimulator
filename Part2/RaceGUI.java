@@ -7,37 +7,31 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class RaceGUI {
+    private Race race;
     private JFrame frame;
     private JPanel racePanel;
     private JButton startRaceButton;
     private JButton bettingButton;
     private JButton statisticsButton;
+    private JButton customiseTrackButton;
     private JPanel trackPanel;
+    private volatile Thread raceThread;
+    private volatile boolean interrupt;
+
     final static int TRACK_DISTANCE = 600;
     final static int ICON_SIZE = 60;
+
 
     private List<JLabel> horseLabels;
 
     RaceGUI(Race race)
     {
+        this.race = race;
         //Generate Track to contain lanes
-        JPanel trackPanel = new JPanel(new GridLayout(race.getLaneCount(), 1));
+        trackPanel = new JPanel(new GridLayout(race.getLaneCount(), 1));
         horseLabels = new ArrayList<>(race.getLaneCount());
         //Generate Lanes for Horses
-        for (Horse horse : race.getHorses())
-        {
-            JPanel horsePanel = new JPanel(null);
-            horsePanel.setBackground(Color.WHITE);
-            horsePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
-
-            horsePanel.setPreferredSize(new Dimension(TRACK_DISTANCE + ICON_SIZE, ICON_SIZE));
-            JLabel horseLabel = new JLabel(scaleImage(horse.getBreedIcon()));
-            horseLabel.setBounds(0, 0, ICON_SIZE, ICON_SIZE);
-            horseLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
-            horsePanel.add(horseLabel);
-            trackPanel.add(horsePanel);
-            horseLabels.add(horseLabel);
-        }
+        generateTrack();
 
         racePanel.add(trackPanel);
         RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
@@ -45,12 +39,15 @@ public class RaceGUI {
         startRaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new Thread(new Runnable() {
-                    @Override
-                    public void run() {
-                        startRace(race);
-                    }
-                }).start();
+                if (raceThread != null && raceThread.isAlive())
+                {
+                    raceStop();
+                }
+                else
+                {
+                    raceThread = new Thread(() -> startRace(race));
+                    raceThread.start();
+                }
             }
         });
 
@@ -67,8 +64,39 @@ public class RaceGUI {
                 new BettingGUI(race, new User("PT", 1100));
             }
         });
+        customiseTrackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                if (raceThread != null && raceThread.isAlive())
+                {
+                    raceStop();
+                }
+                new CustomiseTrackGUI(new JFrame(), race);
+                generateTrack();
+            }
+        });
     }
 
+    void generateTrack()
+    {
+        //Generate Lanes for Horses
+        for (Horse horse : race.getHorses())
+        {
+            JPanel horsePanel = new JPanel(null);
+            horsePanel.setBackground(Color.WHITE);
+            horsePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
+            horsePanel.setPreferredSize(new Dimension(TRACK_DISTANCE + ICON_SIZE, ICON_SIZE));
+            JLabel horseLabel = new JLabel(scaleImage(horse.getColouredBreedIcon()));
+            horseLabel.setBounds(0, 0, ICON_SIZE, ICON_SIZE);
+            horseLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
+            horsePanel.add(horseLabel);
+            trackPanel.add(horsePanel);
+            horseLabels.add(horseLabel);
+        }
+
+        racePanel.add(trackPanel);
+    }
     void startRace(Race race)
     {
         for (Horse horse : race.getHorses())
@@ -82,6 +110,10 @@ public class RaceGUI {
 
         while (!race.getFinished())
         {
+            if (interrupt)
+            {
+                race.setFinished(true);
+            }
             //move each horse
             for (Horse horse : race.getHorses())
             {
@@ -137,5 +169,20 @@ public class RaceGUI {
     static ImageIcon scaleImage(ImageIcon icon)
     {
         return new ImageIcon(icon.getImage().getScaledInstance(ICON_SIZE, ICON_SIZE, Image.SCALE_SMOOTH));
+    }
+
+    void raceStop()
+    {
+        interrupt = true;
+        try
+        {
+            JOptionPane.showMessageDialog(null, "Race Stopped");
+            raceThread.join();
+        }
+        catch (InterruptedException e)
+        {
+            e.printStackTrace();
+        }
+        interrupt = false;
     }
 }
