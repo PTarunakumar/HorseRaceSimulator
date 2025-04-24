@@ -67,7 +67,20 @@ public class Horse
         }
     };
 
-
+    public static HashMap<String, Double> accessorySpeedEffects = new HashMap<>()
+    {
+        {
+            put("Horseshoe", 1.2);
+            put("Saddle", 0.9);
+        }
+    };
+    public static HashMap<String, Double> accessoryFallFactorEffects = new HashMap<>()
+    {
+        {
+            put("Horseshoe", 0.9);
+            put("Saddle", 0.7);
+        }
+    };
 
     /**
      * Constructor for Horse class objects
@@ -94,10 +107,19 @@ public class Horse
         this.hasFallen = false;
         this.totalWins = 0;
         this.totalRaces = 0;
-        this.horseSpeed = breedSpeed.get(horseBreed);
-        this.horseFallRateFactor = breedFallRateFactor.get(horseBreed);
+        this.horseSpeed = getDefaultHorseSpeed();
+        this.horseFallRateFactor = getDefaultFallFactor();
     }
 
+    public double getDefaultHorseSpeed()
+    {
+        return breedSpeed.get(horseBreed) * accessorySpeedEffects.get(horseAccessory);
+    }
+
+    public double getDefaultFallFactor()
+    {
+        return breedFallRateFactor.get(horseBreed) * accessoryFallFactorEffects.get(horseAccessory);
+    }
     //Getters
     public List<Double> getConfidenceList()
     {

@@ -41,6 +41,7 @@ public class RaceGUI {
         startRaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+                //If a race is running, stop the race, else start a new race
                 if (raceThread != null && raceThread.isAlive())
                 {
                     raceStop();
@@ -66,6 +67,7 @@ public class RaceGUI {
                 new BettingGUI(race, new User("PT", 1100));
             }
         });
+
         customiseTrackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -115,10 +117,7 @@ public class RaceGUI {
     }
     void startRace(Race race)
     {
-        race.resetEffects();
-        race.applyTrackEffects();
         race.setFinished(false);
-        System.out.println("yes");
         for (Horse horse : race.getHorses())
         {
             horse.setTotalRaces(horse.getTotalRaces() + 1);

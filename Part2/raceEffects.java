@@ -81,20 +81,4 @@ public class raceEffects {
             put("wet", wetFallRate);
         }
     };
-
-    //generate HashMaps for each accessory
-    public static HashMap<String, Double> accessorySpeedEffects = new HashMap<>()
-    {
-        {
-            put("Horseshoe", 1.2);
-            put("Saddle", 0.9);
-        }
-    };
-    public static HashMap<String, Double> accessoryFallFactorEffects = new HashMap<>()
-    {
-        {
-            put("Horseshoe", 0.9);
-            put("Saddle", 0.7);
-        }
-    };
 }

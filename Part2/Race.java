@@ -18,24 +18,27 @@ public class Race
     private List<Horse> horses;
     private boolean finished;
 
+    private void applyTrackEffects(Horse horse)
+    {
+        double trackSpeedEffect = raceEffects.trackSpeedEffects.get(trackType).get(horse.getBreed());
+        double trackFallFactorEffect = raceEffects.trackFallFactorEffects.get(trackType).get(horse.getBreed());
+
+        horse.setHorseSpeed(horse.getHorseSpeed() * trackSpeedEffect);
+        horse.setHorseFallRateFactor(horse.getFallRateFactor() * trackFallFactorEffect);
+    }
+
     public void changeTrack(int raceLength, String trackType)
     {
         this.raceLength = raceLength;
         this.trackType = trackType;
-    }
 
-    public void applyTrackEffects()
-    {
         for (Horse horse: horses)
         {
-            double trackSpeedEffect = raceEffects.trackSpeedEffects.get(trackType).get(horse.getBreed());
-            double trackFallFactorEffect = raceEffects.trackFallFactorEffects.get(trackType).get(horse.getBreed());
-
-            double accessorySpeedEffect = raceEffects.accessorySpeedEffects.get(horse.getAccessory());
-            double accessoryFallFactorEffect = raceEffects.accessoryFallFactorEffects.get(horse.getAccessory());
-
-            horse.setHorseSpeed(horse.getHorseSpeed() * trackSpeedEffect * accessorySpeedEffect);
-            horse.setHorseFallRateFactor(horse.getFallRateFactor() * trackFallFactorEffect * accessoryFallFactorEffect);
+            if (horse != null)
+            {
+                resetEffects();
+                applyTrackEffects(horse);
+            }
         }
     }
 
@@ -43,8 +46,8 @@ public class Race
     {
         for (Horse horse: horses)
         {
-            horse.setHorseSpeed(Horse.breedSpeed.get(horse.getBreed()));
-            horse.setHorseFallRateFactor(Horse.breedFallRateFactor.get(horse.getBreed()));
+            horse.setHorseSpeed(horse.getDefaultHorseSpeed());
+            horse.setHorseFallRateFactor(horse.getDefaultFallFactor());
         }
     }
 
@@ -108,6 +111,7 @@ public class Race
         try
         {
             horses.set(laneNumber-1, theHorse);
+            applyTrackEffects(theHorse);
         } catch (IndexOutOfBoundsException e)
         {
             System.out.println("Cannot add horse to lane " + laneNumber + " because there is no such lane");
@@ -254,7 +258,6 @@ public class Race
             if (Math.random() < calculateFallRate(theHorse))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
-                System.out.println(endTime - startTime);
                 theHorse.addConfidence(theHorse.getConfidence());
                 theHorse.addraceTime(endTime - startTime);
                 theHorse.addDistanceTravelled(theHorse.getDistanceTravelled());
