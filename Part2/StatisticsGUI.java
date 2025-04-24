@@ -3,6 +3,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 public class StatisticsGUI {
+    private JFrame frame = new JFrame();
     private JPanel statisticsPanel;
     private JPanel horseDetailsContainer;
     private JLabel raceParticipationCountTextField;
@@ -11,6 +12,9 @@ public class StatisticsGUI {
     private JLabel raceParticipationCountLabel;
     private JComboBox<Horse> horseSelectorComboBox;
     private JPanel horseSelectorContainer;
+    private JTextArea historyTextField;
+    private JLabel averageSpeedLabel;
+    private JLabel averageSpeedTextField;
 
     StatisticsGUI(Race race)
     {
@@ -39,10 +43,44 @@ public class StatisticsGUI {
                 if (selectedHorse != null) {
                     raceParticipationCountTextField.setText(String.valueOf(selectedHorse.getTotalRaces()));
                     noOfWinsTextField.setText(String.valueOf(selectedHorse.getTotalWins()));
+                    averageSpeedTextField.setText(String.format("%.2f", calculateSpeed(selectedHorse)));
+
+                    String history = "";
+                    for (int i = 0; i < selectedHorse.getRaceTimes().size(); i++)
+                    {
+                        String distanceTravelled = String.format("%.2f", selectedHorse.getDistancesTravelledList().get(i));
+                        String raceTime = String.format("%.2f", (double )selectedHorse.getRaceTimes().get(i) / 1000);
+                        String confidence = String.format("%.2f", selectedHorse.getConfidenceList().get(i));
+                        String trackType = RaceGUI.trackHistory.get(i);
+                        history += "Track: " + trackType + " Distance: " + distanceTravelled + "m, Time: " + raceTime + "s Confidence: " + confidence + "\n";
+                    }
+
+                    historyTextField.setText(history);
+                    frame.pack();
                 }
             }
         });
 
-        RaceFrameHandler.initialiseDisposableFrame(new JFrame(), statisticsPanel);
+        RaceFrameHandler.initialiseDisposableFrame(frame, statisticsPanel);
+    }
+
+    private double calculateSpeed(Horse horse)
+    {
+        long totalTime = 0;
+        double totalDistance = 0;
+
+        for (long Time : horse.getRaceTimes())
+        {
+            totalTime += Time;
+        }
+
+        for (double distance : horse.getDistancesTravelledList())
+        {
+            totalDistance += distance;
+        }
+
+        //return speed in m/s
+
+        return totalDistance / ((double) totalTime / 1000) ;
     }
 }

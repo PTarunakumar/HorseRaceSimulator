@@ -99,7 +99,6 @@ public class Race
         try
         {
             horses.set(laneNumber-1, theHorse);
-            theHorse.setTotalRaces(theHorse.getTotalRaces() + 1);
         } catch (IndexOutOfBoundsException e)
         {
             System.out.println("Cannot add horse to lane " + laneNumber + " because there is no such lane");
@@ -218,6 +217,38 @@ public class Race
             if (Math.random() < (0.05 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence()))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
+                theHorse.fall();
+            }
+        }
+    }
+
+    public void moveGUIHorse(Horse theHorse, long startTime, long endTime)
+    {
+        //if the horse has fallen it cannot move,
+        //so only run if it has not fallen
+        if  (!theHorse.hasFallen())
+        {
+            //the probability that the horse will move forward depends on the confidence;
+            if (Math.random() < theHorse.getConfidence())
+            {
+                theHorse.moveForward();
+            }
+
+            if (theHorse.getDistanceTravelled() > raceLength)
+            {
+                theHorse.setDistanceTravelled(raceLength);
+            }
+            //the probability that the horse will fall is very small (max is 0.1)
+            //but will also will depends exponentially on confidence
+            //so if you double the confidence, the probability that it will fall is *2
+            //when the horse falls, its confidence is reduced by 20%
+            if (Math.random() < (0.05 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence()))
+            {
+                theHorse.setConfidence(theHorse.getConfidence() * 0.8);
+                System.out.println(endTime - startTime);
+                theHorse.addConfidence(theHorse.getConfidence());
+                theHorse.addraceTime(endTime - startTime);
+                theHorse.addDistanceTravelled(theHorse.getDistanceTravelled());
                 theHorse.fall();
             }
         }

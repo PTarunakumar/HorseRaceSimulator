@@ -2,6 +2,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.LinkedList;
 import java.util.List;
 import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
@@ -17,6 +18,7 @@ public class RaceGUI {
     private JPanel trackPanel;
     private volatile Thread raceThread;
     private volatile boolean interrupt;
+    public static LinkedList<String> trackHistory = new LinkedList<>();
 
     final static int TRACK_DISTANCE = 600;
     final static int ICON_SIZE = 60;
@@ -77,6 +79,13 @@ public class RaceGUI {
         });
     }
 
+    void addTrackToHistory(String track)
+    {
+        if (raceEffects.trackTypesList.contains(track))
+        {
+            trackHistory.add(track);
+        }
+    }
     void generateTrack()
     {
         //Generate Lanes for Horses
@@ -106,15 +115,18 @@ public class RaceGUI {
     }
     void startRace(Race race)
     {
+        race.applyTrackEffects();
+        race.setFinished(false);
+        System.out.println("yes");
         for (Horse horse : race.getHorses())
         {
-            race.applyTrackEffects();
-            race.setFinished(false);
             horse.setTotalRaces(horse.getTotalRaces() + 1);
             horse.goBackToStart();
             horse.rise();
         }
 
+        long startTime = System.currentTimeMillis();
+        long endTime = startTime;
         while (!race.getFinished())
         {
             if (interrupt)
@@ -126,7 +138,7 @@ public class RaceGUI {
             {
                 if (horse != null)
                 {
-                    race.moveHorse(horse);
+                    race.moveGUIHorse(horse, startTime, endTime);
                 }
             }
             //print the race positions
@@ -159,8 +171,20 @@ public class RaceGUI {
             //wait for 100 milliseconds
             try{
                 TimeUnit.MILLISECONDS.sleep(100);
+                endTime += 100;
             }catch(Exception e){}
         }
+
+        for (Horse horse : race.getHorses())
+        {
+            if (!horse.hasFallen())
+            {
+                horse.addConfidence(horse.getConfidence());
+                horse.addraceTime(endTime - startTime);
+                horse.addDistanceTravelled(horse.getDistanceTravelled());
+            }
+        }
+        addTrackToHistory(race.getTrackType());
         race.setFinished(false);
     }
     void printRace(Race race)

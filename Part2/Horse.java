@@ -3,6 +3,8 @@ import java.awt.*;
 import java.awt.image.BufferedImage;
 import java.util.ArrayList;
 import java.util.HashMap;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * A model of the horse to race with for the program HorseRaceSimulator.
@@ -25,6 +27,9 @@ public class Horse
     private int totalRaces;
     private double horseSpeed;
     private double horseFallRateFactor;
+    private List<Long> raceTimes;
+    private List<Double> distancesTravelledList;
+    private List<Double> confidenceList;
 
 
     public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
@@ -76,6 +81,9 @@ public class Horse
     public Horse(char horseSymbol, String horseName, double horseConfidence, String horseBreed, String horseAccessory, Color horseCoatColor)
     {
         //initialise instance variables
+        this.confidenceList = new LinkedList<>();
+        this.distancesTravelledList = new LinkedList<>();
+        this.raceTimes = new LinkedList<>();
         this.horseSymbol = horseSymbol;
         this.horseName = horseName;
         this.horseConfidence = confidenceValidate(horseConfidence);
@@ -91,6 +99,20 @@ public class Horse
     }
 
     //Getters
+    public List<Double> getConfidenceList()
+    {
+        return confidenceList;
+    }
+    public List<Double> getDistancesTravelledList()
+    {
+        return distancesTravelledList;
+    }
+
+    public LinkedList<Long> getRaceTimes()
+    {
+        return (LinkedList<Long>) raceTimes;
+    }
+
 
     public int getTotalWins()
     {
@@ -176,7 +198,20 @@ public class Horse
     }
 
     //Setters
+    public void addConfidence(double horseConfidence)
+    {
+        this.horseConfidence = confidenceValidate(horseConfidence);
+        confidenceList.add(horseConfidence);
+    }
+    public void addDistanceTravelled(double distanceTravelled)
+    {
+        distancesTravelledList.add(distanceTravelled);
+    }
 
+    public void addraceTime(long time)
+    {
+        raceTimes.add(time);
+    }
     public void setHorseFallRateFactor(double horseFallRateFactor) { this.horseFallRateFactor = horseFallRateFactor; }
 
     public void setHorseSpeed (double horseSpeed) { this.horseSpeed = horseSpeed; }

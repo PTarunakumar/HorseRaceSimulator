@@ -4,7 +4,9 @@
     <constraints>
       <xy x="20" y="20" width="500" height="400"/>
     </constraints>
-    <properties/>
+    <properties>
+      <enabled value="false"/>
+    </properties>
     <border type="none"/>
     <children>
       <grid id="12b26" binding="horseDetailsContainer" layout-manager="GridBagLayout">
@@ -24,18 +26,6 @@
               <horizontalAlignment value="0"/>
               <horizontalTextPosition value="0"/>
               <text value="No of Races: "/>
-            </properties>
-          </component>
-          <component id="181aa" class="javax.swing.JLabel" binding="raceParticipationCountTextField">
-            <constraints>
-              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
-                <preferred-size width="150" height="-1"/>
-              </grid>
-              <gridbag weightx="0.0" weighty="0.0"/>
-            </constraints>
-            <properties>
-              <horizontalAlignment value="0"/>
-              <text value=""/>
             </properties>
           </component>
           <component id="4b1f6" class="javax.swing.JLabel" binding="noOfWinsLabel">
@@ -58,7 +48,42 @@
             </constraints>
             <properties>
               <horizontalAlignment value="0"/>
-              <text value=""/>
+              <horizontalTextPosition value="0"/>
+              <text value="&lt;Wins&gt;"/>
+            </properties>
+          </component>
+          <component id="c174b" class="javax.swing.JLabel" binding="averageSpeedLabel">
+            <constraints>
+              <grid row="2" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="0" anchor="8" fill="0" indent="0" use-parent-layout="false"/>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <text value="Average Speed: "/>
+            </properties>
+          </component>
+          <component id="181aa" class="javax.swing.JLabel" binding="raceParticipationCountTextField">
+            <constraints>
+              <grid row="0" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <horizontalTextPosition value="0"/>
+              <text value="&lt;Races&gt;"/>
+            </properties>
+          </component>
+          <component id="a5058" class="javax.swing.JLabel" binding="averageSpeedTextField">
+            <constraints>
+              <grid row="2" column="1" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="0" indent="0" use-parent-layout="false">
+                <preferred-size width="150" height="-1"/>
+              </grid>
+              <gridbag weightx="0.0" weighty="0.0"/>
+            </constraints>
+            <properties>
+              <horizontalAlignment value="0"/>
+              <text value="&lt;Speed&gt;"/>
             </properties>
           </component>
         </children>
@@ -102,6 +127,17 @@
           </component>
         </children>
       </grid>
+      <component id="f56c3" class="javax.swing.JTextArea" binding="historyTextField">
+        <constraints>
+          <grid row="3" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="6" anchor="0" fill="1" indent="0" use-parent-layout="false">
+            <preferred-size width="150" height="-1"/>
+          </grid>
+          <gridbag weightx="0.0" weighty="0.0"/>
+        </constraints>
+        <properties>
+          <text value="&lt;Stats&gt;"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
