@@ -115,6 +115,7 @@ public class RaceGUI {
     }
     void startRace(Race race)
     {
+        race.resetEffects();
         race.applyTrackEffects();
         race.setFinished(false);
         System.out.println("yes");

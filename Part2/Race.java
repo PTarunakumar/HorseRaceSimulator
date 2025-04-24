@@ -39,6 +39,15 @@ public class Race
         }
     }
 
+    public void resetEffects()
+    {
+        for (Horse horse: horses)
+        {
+            horse.setHorseSpeed(Horse.breedSpeed.get(horse.getBreed()));
+            horse.setHorseFallRateFactor(Horse.breedFallRateFactor.get(horse.getBreed()));
+        }
+    }
+
     /**
      * Constructor for objects of class Race
      * Initially there are no horses in the lanes
@@ -214,7 +223,7 @@ public class Race
             //but will also will depends exponentially on confidence
             //so if you double the confidence, the probability that it will fall is *2
             //when the horse falls, its confidence is reduced by 20%
-            if (Math.random() < (0.05 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence()))
+            if (Math.random() < calculateFallRate(theHorse))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
                 theHorse.fall();
@@ -242,7 +251,7 @@ public class Race
             //but will also will depends exponentially on confidence
             //so if you double the confidence, the probability that it will fall is *2
             //when the horse falls, its confidence is reduced by 20%
-            if (Math.random() < (0.05 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence()))
+            if (Math.random() < calculateFallRate(theHorse))
             {
                 theHorse.setConfidence(theHorse.getConfidence() * 0.8);
                 System.out.println(endTime - startTime);
@@ -372,5 +381,9 @@ public class Race
         return allFallen;
     }
 
+    public static double calculateFallRate(Horse theHorse)
+    {
+        return 0.1 * theHorse.getFallRateFactor() * theHorse.getConfidence()*theHorse.getConfidence();
+    }
 
 }

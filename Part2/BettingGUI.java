@@ -4,7 +4,6 @@ import javax.swing.event.ChangeListener;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.util.concurrent.TimeUnit;
 
 public class BettingGUI {
     private JPanel bettingPanel;
@@ -21,6 +20,9 @@ public class BettingGUI {
     private JTextField betAmountTextField;
     private JPanel submitPanel;
     private JButton submitButton;
+    private JLabel bettingOddsLabel;
+    private JLabel oddsLabel;
+    private JTextArea bettingHistory;
 
 
     BettingGUI(Race race, User user)
@@ -109,7 +111,7 @@ public class BettingGUI {
                             @Override
                             public void run() {
                                 if (race.raceWonBy(horseBettedOn)) {
-                                    user.setMoney(user.getMoney() + betAmount * 2);
+                                    user.setMoney((int) (user.getMoney() + betAmount * calculateBettingOdds(horseBettedOn)));
                                     moneyDisplayLabel.setText(Integer.toString(user.getMoney()));
                                     System.out.println("You win");
                                     JOptionPane.showMessageDialog(null, "You won the bet on " + horseBettedOn.getName() + "!");
@@ -124,5 +126,27 @@ public class BettingGUI {
                 }).start();
             }
         });
+        horseSelectComboBox.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                Horse selectedHorse = (Horse) horseSelectComboBox.getSelectedItem();
+                if (selectedHorse != null) {
+                    System.out.println(calculateBettingOdds(selectedHorse));
+                    oddsLabel.setText("1:" + calculateBettingOdds(selectedHorse));
+                }
+            }
+        });
+    }
+
+    public static double calculateBettingOdds(Horse horse)
+    {
+        double score = horse.getHorseSpeed() * (1- horse.getConfidence()) * (1 - Race.calculateFallRate(horse));
+
+        return (score > 1) ? 1 : toTwoDecimalPlace(1/score);
+    }
+
+    public static double toTwoDecimalPlace(double num)
+    {
+        return Math.round(num * 100.0) / 100.0;
     }
 }
