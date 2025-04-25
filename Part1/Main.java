@@ -3,7 +3,6 @@ public class Main {
     {
         // Initialising race and horses
         Race race = new Race(10);
-
         race.startRace();
     }
 }

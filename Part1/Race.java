@@ -1,3 +1,4 @@
+import java.util.Scanner;
 import java.util.concurrent.TimeUnit;
 import java.lang.Math;
 
@@ -63,9 +64,22 @@ public class Race
         addHorse(horse2, 2);
         addHorse(horse3, 3);
 
-        //declare a local variable to tell us when the race is finished
-        boolean finished = false;
 
+        do {
+            raceLoop();
+        }
+        while(raceRepeat());
+
+
+    }
+
+    private boolean raceRepeat()
+    {
+        System.out.println("Do you want to do another race? (y/n)");
+        return new Scanner(System.in).nextLine().equals("y");
+    }
+    private void raceLoop()
+    {
         //reset all the lanes (all horses not fallen and back to 0).
         for(int i = 0; i < 3; i++)
         {
@@ -76,7 +90,7 @@ public class Race
             }
         }
 
-        while (!finished)
+        while (true)
         {
             //move each horse
             for (int i = 0; i < 3; i++)
@@ -96,7 +110,7 @@ public class Race
                 if (horses[i] != null && raceWonBy(horses[i])) {
                     System.out.println(horses[i].getName() + " wins!");
                     horses[i].setConfidence(horses[i].getConfidence() * 1.2);
-                    finished = true;
+                    return;
                 }
             }
 
@@ -104,7 +118,7 @@ public class Race
             if (allFallen())
             {
                 System.out.println("All horses have fallen!");
-                finished = true;
+                return;
             }
 
             //wait for 100 milliseconds
