@@ -15,6 +15,7 @@ public class RaceGUI {
     private JButton bettingButton;
     private JButton statisticsButton;
     private JButton customiseTrackButton;
+    private JPanel buttonPanel;
     private JPanel trackPanel;
     private volatile Thread raceThread;
     private volatile boolean interrupt;
@@ -29,15 +30,28 @@ public class RaceGUI {
     RaceGUI(Race race)
     {
         this.race = race;
-        //Generate Track to contain lanes
+
+        //Race Panel
+        racePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints racePanelGbc = new GridBagConstraints();
+
+        //Track Panel
         trackPanel = new JPanel(new GridLayout(race.getLaneCount(), 1));
         horseLabels = new ArrayList<>(race.getLaneCount());
+
         //Generate Lanes for Horses
         generateTrack();
 
-        racePanel.add(trackPanel);
-        RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
+        //Add trackPanel to racePanel
+        racePanelGbc.gridx = 0;
+        racePanelGbc.gridy = 0;
+        racePanel.add(trackPanel, racePanelGbc);
 
+        // Button Panel
+        JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
+
+        //Start Button
+        startRaceButton = new JButton("Start Race");
         startRaceButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,13 +68,8 @@ public class RaceGUI {
             }
         });
 
-        statisticsButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                new StatisticsGUI(race);
-            }
-        });
-
+        //Betting button
+        bettingButton = new JButton("Betting");
         bettingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -68,6 +77,17 @@ public class RaceGUI {
             }
         });
 
+        //Statistics Button
+        statisticsButton = new JButton("Statistics");
+        statisticsButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                new StatisticsGUI(race);
+            }
+        });
+
+        //Customise Track Button
+        customiseTrackButton = new JButton("Customise Track");
         customiseTrackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -79,6 +99,21 @@ public class RaceGUI {
                 generateTrack();
             }
         });
+
+        //add all buttons to buttonPanel
+        buttonPanel.add(startRaceButton);
+        buttonPanel.add(bettingButton);
+        buttonPanel.add(statisticsButton);
+        buttonPanel.add(customiseTrackButton);
+
+        //add buttonPanel to racePanel
+        racePanelGbc.gridx = 0;
+        racePanelGbc.gridy = 1;
+        racePanelGbc.fill = GridBagConstraints.BOTH;
+        racePanel.add(buttonPanel, racePanelGbc);
+
+
+        RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
     }
 
     void addTrackToHistory(String track)
