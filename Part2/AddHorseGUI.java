@@ -1,7 +1,7 @@
-import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import javax.swing.*;
 
 public class AddHorseGUI extends JDialog{
     private Horse horse;
@@ -28,7 +28,7 @@ public class AddHorseGUI extends JDialog{
     AddHorseGUI(JFrame parent)
     {
         super(parent, "Add Horse", true);
-
+        System.out.println("hi");
         breedComboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
@@ -117,6 +117,10 @@ public class AddHorseGUI extends JDialog{
     private void setHorse(Horse horse)
     {
         this.horse = horse;
+    }
+
+    public static void main(String[] args) {
+        new AddHorseGUI(new JFrame());
     }
 }
 
