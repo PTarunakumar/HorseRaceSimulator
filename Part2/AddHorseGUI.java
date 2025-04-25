@@ -7,7 +7,7 @@ public class AddHorseGUI extends JDialog{
     private Horse horse;
     private JFrame frame;
     private JPanel addPanel;
-    private JPanel horseFieldLabelContainer;
+    private JPanel horseFieldPanel;
     private JLabel confidenceLabel;
     private JLabel symbolLabel;
     private JLabel nameLabel;
@@ -16,11 +16,11 @@ public class AddHorseGUI extends JDialog{
     private JTextField symbolTextField;
     private JTextField nameTextField;
     private JSlider confidenceSlider;
-    private JPanel titleContainer;
+    private JPanel titlePanel;
     private JLabel addHorseLabel;
     private JButton addButton;
     private JComboBox<String> breedComboBox;
-    private JPanel addContainer;
+    private JPanel addButtonPanel;
     private JColorChooser horseCoatColorChooser;
     private JLabel accessoryLabel;
     private JComboBox<String> accessoryComboBox;
@@ -28,7 +28,74 @@ public class AddHorseGUI extends JDialog{
     AddHorseGUI(JFrame parent)
     {
         super(parent, "Add Horse", true);
-        System.out.println("hi");
+
+        // Add Panel
+        addPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints addPanelGbc = new GridBagConstraints();
+
+        // Title Panel
+        titlePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints titlePanelGbc = new GridBagConstraints();
+
+        //addHorseLabel to titlePanel
+        addHorseLabel = new JLabel("Add Horse");
+        addHorseLabel.setFont(new Font("Arial Black", Font.BOLD, 24));
+
+        titlePanelGbc.gridx = 0;
+        titlePanelGbc.gridy = 0;
+        titlePanel.add(addHorseLabel, addPanelGbc);
+
+        // Add titlePanel to addPanel
+        addPanelGbc = new GridBagConstraints();
+        addPanelGbc.gridx = 0;
+        addPanelGbc.gridy = 0;
+        addPanelGbc.fill = GridBagConstraints.HORIZONTAL;
+        addPanel.add(titlePanel, addPanelGbc);
+
+        // horseFieldPanel
+        horseFieldPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints horseFieldPanelGbc = new GridBagConstraints();
+        horseFieldPanelGbc.insets = new Insets(5, 5, 5, 5);
+        horseFieldPanelGbc.fill = GridBagConstraints.HORIZONTAL;
+
+        // add symbolLabel and symbolTextField to horseFieldPanel
+        symbolLabel = new JLabel("Symbol:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 0;
+        horseFieldPanel.add(symbolLabel, horseFieldPanelGbc);
+
+        symbolTextField = new JTextField(1);
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(symbolTextField, horseFieldPanelGbc);
+
+        // add nameLabel and nameTextField to horseFieldPanel
+        nameLabel = new JLabel("Name:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 1;
+        horseFieldPanel.add(nameLabel, horseFieldPanelGbc);
+
+        nameTextField = new JTextField(10);
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(nameTextField, horseFieldPanelGbc);
+
+        // add confidenceLabel and slider to horseFieldPanel
+        confidenceLabel = new JLabel("Confidence:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 2;
+        horseFieldPanel.add(confidenceLabel, horseFieldPanelGbc);
+
+        confidenceSlider = new JSlider(10, 100, 50);
+        confidenceSlider.setMajorTickSpacing(25);
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(confidenceSlider, horseFieldPanelGbc);
+
+        // add breedLabel and ComboBox to horseFieldPanel
+        breedLabel = new JLabel("Breed:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 3;
+        horseFieldPanel.add(breedLabel, horseFieldPanelGbc);
+
+        breedComboBox = new JComboBox<>();
         breedComboBox.setRenderer(new DefaultListCellRenderer() {
             @Override
             public java.awt.Component getListCellRendererComponent(JList<?> list, Object value, int index, boolean isSelected, boolean hasFocus) {
@@ -40,17 +107,50 @@ public class AddHorseGUI extends JDialog{
                 return label;
             }
         });
-
         breedComboBox.addItem(" ");
         for (String item : Horse.breedIcons.keySet()) {
             breedComboBox.addItem(item);
         }
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(breedComboBox, horseFieldPanelGbc);
 
+        // add accessoryLabel and ComboBox to horseFieldPanel
+        accessoryLabel = new JLabel("Accessory:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 4;
+        horseFieldPanel.add(accessoryLabel, horseFieldPanelGbc);
+
+        accessoryComboBox = new JComboBox<>();
         accessoryComboBox.addItem(" ");
         for (String item : Horse.accessoryList) {
             accessoryComboBox.addItem(item);
         }
 
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(accessoryComboBox, horseFieldPanelGbc);
+
+        // add accessoryLabel and ComboBox to horseFieldPanel
+        coatColourLabel = new JLabel("Coat Colour:");
+        horseFieldPanelGbc.gridx = 0;
+        horseFieldPanelGbc.gridy = 5;
+        horseFieldPanel.add(coatColourLabel, horseFieldPanelGbc);
+
+        horseCoatColorChooser = new JColorChooser();
+        horseFieldPanelGbc.gridx = 1;
+        horseFieldPanel.add(horseCoatColorChooser, horseFieldPanelGbc);
+
+        // Add horseFieldLabelContainer to addPanel
+        addPanelGbc.gridy = 1;
+        addPanel.add(horseFieldPanel, addPanelGbc);
+
+        // addButtonPanel
+        addButtonPanel = new JPanel(new GridBagLayout());
+
+        //Since both is used in similar ways and have only one item centered, may be changed in the future
+        GridBagConstraints addButtonPanelGbc = titlePanelGbc;
+
+        //Add addButton to addButtonPanel
+        addButton = new JButton("Add");
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -81,11 +181,13 @@ public class AddHorseGUI extends JDialog{
                 }
             }
         });
-        addPanel.registerKeyboardAction(new ActionListener() {
-            public void actionPerformed(ActionEvent e) {
-                System.exit(1);
-            }
-        }, KeyStroke.getKeyStroke("ESCAPE"), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+        addButtonPanel.add(addButton, addButtonPanelGbc);
+
+        // Add addContainer to main panel
+        addPanelGbc.gridx = 0;
+        addPanelGbc.gridy = 2;
+        addPanel.add(addButtonPanel, addPanelGbc);
+
 
         RaceFrameHandler.initialiseDialog(this,addPanel);
     }

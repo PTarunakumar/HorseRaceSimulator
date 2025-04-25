@@ -13,6 +13,12 @@ public class RaceFrameHandler {
      */
     static public void initialiseDialog(JDialog dialog, JPanel startPanel)
     {
+        startPanel.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                System.exit(1);
+            }
+        }, KeyStroke.getKeyStroke("ESCAPE"), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
         dialog.setContentPane(startPanel);
         dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
         dialog.pack();
