@@ -24,6 +24,7 @@ public class Race
         // initialise instance variables
         raceLength = distance;
         horses = new Horse[3];
+
     }
 
     /**
@@ -52,6 +53,16 @@ public class Race
      */
     public void startRace()
     {
+
+        Horse horse1 = new Horse('1', "Horse1", 0.9);
+        Horse horse2 = new Horse('2', "Horse2", 0.7);
+        Horse horse3 = new Horse('3', "horse3", 0.8);
+
+        //Adding horses to the race
+        addHorse(horse1, 1);
+        addHorse(horse2, 2);
+        addHorse(horse3, 3);
+
         //declare a local variable to tell us when the race is finished
         boolean finished = false;
 
