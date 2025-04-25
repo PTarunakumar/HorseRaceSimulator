@@ -209,16 +209,19 @@ public class Race
         //and after the horse
         int spacesBefore;
         int spacesAfter;
+        String confidenceDisplay;
 
         if (theHorse == null)
         {
             spacesBefore = 0;
             spacesAfter = raceLength;
+            confidenceDisplay = "";
         }
         else
         {
             spacesBefore = theHorse.getDistanceTravelled();
             spacesAfter = raceLength - theHorse.getDistanceTravelled();
+            confidenceDisplay = "   (Confidence: " + toTwoDecimalPlace(theHorse.getConfidence()) + ")";
         }
 
         //print a | for the beginning of the lane
@@ -249,6 +252,9 @@ public class Race
 
         //print the | for the end of the track
         System.out.print('|');
+
+        //print confidence
+        System.out.println(confidenceDisplay);
     }
 
 
@@ -282,5 +288,10 @@ public class Race
             }
         }
         return allFallen;
+    }
+
+    public double toTwoDecimalPlace(double num)
+    {
+        return (double) Math.round(num * 100) / 100;
     }
 }
