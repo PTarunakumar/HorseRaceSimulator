@@ -254,7 +254,7 @@ public class Race
         System.out.print('|');
 
         //print confidence
-        System.out.println(confidenceDisplay);
+        System.out.print(confidenceDisplay);
     }
 
 
