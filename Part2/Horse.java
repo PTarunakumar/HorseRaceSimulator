@@ -35,9 +35,9 @@ public class Horse
     public static HashMap<String, ImageIcon> breedIcons = new HashMap<>()
     {
         {
-            put("Horse", new ImageIcon("Part2/Icons/horse.png"));
-            put("Unicorn", new ImageIcon("Part2/Icons/unicorn.png"));
-            put("Pegasus", new ImageIcon("Part2/Icons/pegasus.png"));
+            put("Horse", new ImageIcon(getClass().getResource("Icons/horse.png")));
+            put("Unicorn", new ImageIcon(getClass().getResource("Icons/unicorn.png")));
+            put("Pegasus", new ImageIcon(getClass().getResource("Icons/pegasus.png")));
         }
     };
 
