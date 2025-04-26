@@ -17,5 +17,5 @@ Similarly for the graphical version:
 
 This was created using the IntelliJ Ide, but you can use any ide to configure.
 
-Have fun played and would be much appreciated for any contributions!
+Have fun playing and would be much appreciated for any contributions!
 
