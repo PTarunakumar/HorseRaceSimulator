@@ -8,6 +8,9 @@ import java.util.ArrayList;
 import java.util.concurrent.TimeUnit;
 
 public class RaceGUI {
+    private JPanel trackDetailPanel;
+    private JLabel tracktypeLabel;
+    private JLabel trackLengthLabel;
     private Race race;
     private JFrame frame;
     private JPanel racePanel;
@@ -34,6 +37,7 @@ public class RaceGUI {
         //Race Panel
         racePanel = new JPanel(new GridBagLayout());
         GridBagConstraints racePanelGbc = new GridBagConstraints();
+        racePanelGbc.insets = new Insets(5, 30, 5, 30);
 
         //Track Panel
         trackPanel = new JPanel(new GridLayout(race.getLaneCount(), 1));
@@ -44,8 +48,19 @@ public class RaceGUI {
 
         //Add trackPanel to racePanel
         racePanelGbc.gridx = 0;
-        racePanelGbc.gridy = 0;
+        racePanelGbc.gridy = 1;
         racePanel.add(trackPanel, racePanelGbc);
+
+        // trackDetailPanel
+        trackDetailPanel = new JPanel(new FlowLayout());
+        trackLengthLabel = new JLabel("Length: " + race.getRaceLength());
+        tracktypeLabel = new JLabel("Type: " + race.getTrackType());
+
+        trackDetailPanel.add(trackLengthLabel);
+        trackDetailPanel.add(tracktypeLabel);
+        racePanelGbc.gridx = 0;
+        racePanelGbc.gridy = 0;
+        racePanel.add(trackDetailPanel, racePanelGbc);
 
         // Button Panel
         JPanel buttonPanel = new JPanel(new FlowLayout(FlowLayout.CENTER, 5, 5));
@@ -108,7 +123,7 @@ public class RaceGUI {
 
         //add buttonPanel to racePanel
         racePanelGbc.gridx = 0;
-        racePanelGbc.gridy = 1;
+        racePanelGbc.gridy = 2;
         racePanelGbc.fill = GridBagConstraints.BOTH;
         racePanel.add(buttonPanel, racePanelGbc);
 
@@ -123,11 +138,14 @@ public class RaceGUI {
             trackHistory.add(track);
         }
     }
-    private void generateTrack()
-    {
+    private void generateTrack() {
+        if (trackPanel != null) {
+            trackPanel.removeAll();
+            horseLabels.clear();
+        }
+
         //Generate Lanes for Horses
-        for (Horse horse : race.getHorses())
-        {
+        for (Horse horse : race.getHorses()) {
             JPanel horsePanel = new JPanel(null);
             horsePanel.setBackground(Color.WHITE);
             horsePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
@@ -138,7 +156,7 @@ public class RaceGUI {
             horseLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
 
             JLabel horseSymbolLabel = new JLabel(String.valueOf(horse.getSymbol()));
-            horseSymbolLabel.setBounds(TRACK_DISTANCE - 20, 0, ICON_SIZE , ICON_SIZE);
+            horseSymbolLabel.setBounds(TRACK_DISTANCE - 20, 0, ICON_SIZE, ICON_SIZE);
             horseSymbolLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
             horseSymbolLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
@@ -148,7 +166,18 @@ public class RaceGUI {
             horseLabels.add(horseLabel);
         }
 
-        racePanel.add(trackPanel);
+        if (tracktypeLabel != null && trackLengthLabel != null)
+        {
+            tracktypeLabel.setText("Type: " + race.getTrackType());
+            trackLengthLabel.setText("Length: " + race.getRaceLength());
+        }
+
+        GridBagConstraints racePanelGbc = new GridBagConstraints();
+        racePanelGbc.gridx = 0;
+        racePanelGbc.gridy = 1;
+        racePanel.add(trackPanel, racePanelGbc);
+        trackPanel.revalidate();
+        trackPanel.repaint();
     }
     private void startRace(Race race)
     {
