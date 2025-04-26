@@ -115,6 +115,8 @@ public class CustomiseTrackGUI extends JDialog{
                 }
             }
         });
+
+        RaceFrameHandler.initialiseDialog(this, changeTrackPanel);
     }
 
     public static void main(String[] args) {

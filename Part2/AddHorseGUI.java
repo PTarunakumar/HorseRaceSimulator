@@ -151,6 +151,13 @@ public class AddHorseGUI extends JDialog{
 
         //Add addButton to addButtonPanel
         addButton = new JButton("Add");
+        addButtonPanel.add(addButton, addButtonPanelGbc);
+
+        // Add addContainer to main panel
+        addPanelGbc.gridx = 0;
+        addPanelGbc.gridy = 2;
+        addPanel.add(addButtonPanel, addPanelGbc);
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -181,13 +188,6 @@ public class AddHorseGUI extends JDialog{
                 }
             }
         });
-        addButtonPanel.add(addButton, addButtonPanelGbc);
-
-        // Add addContainer to main panel
-        addPanelGbc.gridx = 0;
-        addPanelGbc.gridy = 2;
-        addPanel.add(addButtonPanel, addPanelGbc);
-
 
         RaceFrameHandler.initialiseDialog(this,addPanel);
     }

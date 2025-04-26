@@ -82,7 +82,7 @@ public class AddTrackGUI extends JDialog{
         trackFieldPanelGbc.gridy = 2;
         trackFieldPanel.add(laneCountLabel, trackFieldPanelGbc);
 
-        laneCountSlider = new JSlider(0, 10, 0);
+        laneCountSlider = new JSlider(2, 10, 2);
         laneCountSlider.setMajorTickSpacing(1);
         laneCountSlider.setPaintTicks(true);
         laneCountSlider.addChangeListener(new ChangeListener() {
