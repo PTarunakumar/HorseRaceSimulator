@@ -25,9 +25,9 @@ public class BettingGUI {
     private JLabel oddsLabel;
     private JTextArea bettingHistory;
 
-
-    void setUI(User user, Race race)
+    BettingGUI(Race race, User user)
     {
+
         //Betting Panel
         bettingPanel = new JPanel(new GridBagLayout());
         GridBagConstraints bettingPanelGbc = new GridBagConstraints();
@@ -159,10 +159,7 @@ public class BettingGUI {
         bettingPanelGbc.gridx = 0;
         bettingPanelGbc.gridy = 4;
         bettingPanel.add(bettingHistory, bettingPanelGbc);
-    }
-    BettingGUI(Race race, User user)
-    {
-        setUI(user, race);
+
         //Creating Custom Components
         horseSelectComboBox.addActionListener(new ActionListener() {
             @Override

@@ -116,14 +116,14 @@ public class RaceGUI {
         RaceFrameHandler.initialiseFrame(new JFrame(), racePanel);
     }
 
-    void addTrackToHistory(String track)
+    private void addTrackToHistory(String track)
     {
         if (raceEffects.trackTypesList.contains(track))
         {
             trackHistory.add(track);
         }
     }
-    void generateTrack()
+    private void generateTrack()
     {
         //Generate Lanes for Horses
         for (Horse horse : race.getHorses())
@@ -150,7 +150,7 @@ public class RaceGUI {
 
         racePanel.add(trackPanel);
     }
-    void startRace(Race race)
+    private void startRace(Race race)
     {
         race.setFinished(false);
         for (Horse horse : race.getHorses())
@@ -173,7 +173,7 @@ public class RaceGUI {
             {
                 if (horse != null)
                 {
-                    race.moveGUIHorse(horse, startTime, endTime);
+                    moveGUIHorse(horse, startTime, endTime);
                 }
             }
             //print the race positions
@@ -222,6 +222,38 @@ public class RaceGUI {
         addTrackToHistory(race.getTrackType());
         race.setFinished(false);
     }
+
+    private void moveGUIHorse(Horse theHorse, long startTime, long endTime)
+    {
+        //if the horse has fallen it cannot move,
+        //so only run if it has not fallen
+        if  (!theHorse.hasFallen())
+        {
+            //the probability that the horse will move forward depends on the confidence;
+            if (Math.random() < theHorse.getConfidence())
+            {
+                theHorse.moveForward();
+            }
+
+            if (theHorse.getDistanceTravelled() > race.getRaceLength())
+            {
+                theHorse.setDistanceTravelled(race.getRaceLength());
+            }
+            //the probability that the horse will fall is very small (max is 0.1)
+            //but will also will depends exponentially on confidence
+            //so if you double the confidence, the probability that it will fall is *2
+            //when the horse falls, its confidence is reduced by 20%
+            if (Math.random() < Race.calculateFallRate(theHorse))
+            {
+                theHorse.setConfidence(theHorse.getConfidence() * 0.8);
+                theHorse.addConfidence(theHorse.getConfidence());
+                theHorse.addraceTime(endTime - startTime);
+                theHorse.addDistanceTravelled(theHorse.getDistanceTravelled());
+                theHorse.fall();
+            }
+        }
+    }
+
     void printRace(Race race)
     {
         for (int i = 0; i < race.getLaneCount(); i++)
@@ -245,10 +277,8 @@ public class RaceGUI {
             JOptionPane.showMessageDialog(null, "Race Stopped");
             raceThread.join();
         }
-        catch (InterruptedException e)
-        {
-            e.printStackTrace();
-        }
+        catch (InterruptedException e) {}
+
         interrupt = false;
     }
 }
