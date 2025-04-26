@@ -6,8 +6,8 @@ import java.lang.Math;
  * A three-horse race, each horse running in its own lane
  * for a given distance
  *
- * @author McRaceface
- * @version 1.0
+ * @author McRaceface / PTarunakumar
+ * @version 1.1
  */
 public class Race
 {
@@ -54,30 +54,21 @@ public class Race
      */
     public void startRace()
     {
-
+        //Adding horses to the race
         Horse horse1 = new Horse('1', "Horse1", 0.9);
         Horse horse2 = new Horse('2', "Horse2", 0.7);
         Horse horse3 = new Horse('3', "horse3", 0.8);
 
-        //Adding horses to the race
         addHorse(horse1, 1);
         addHorse(horse2, 2);
         addHorse(horse3, 3);
-
 
         do {
             raceLoop();
         }
         while(raceRepeat());
-
-
     }
 
-    private boolean raceRepeat()
-    {
-        System.out.println("Do you want to do another race? (y/n)");
-        return new Scanner(System.in).nextLine().equals("y");
-    }
     private void raceLoop()
     {
         //reset all the lanes (all horses not fallen and back to 0).
@@ -126,6 +117,12 @@ public class Race
                 TimeUnit.MILLISECONDS.sleep(100);
             }catch(Exception e){}
         }
+    }
+
+    private boolean raceRepeat()
+    {
+        System.out.println("Do you want to do another race? (y/n)");
+        return new Scanner(System.in).nextLine().equals("y");
     }
 
     /**
@@ -237,8 +234,7 @@ public class Race
         {
             System.out.print(' ');
         }
-        else
-        if(theHorse.hasFallen())
+        else if(theHorse.hasFallen())
         {
             System.out.print('\u2322');
         }
