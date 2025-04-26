@@ -8,9 +8,9 @@ import java.awt.event.ActionListener;
 public class BettingGUI {
     private JFrame frame = new JFrame();
     private JPanel bettingPanel;
-    private JPanel titleContainer;
-    private JPanel moneyContainer;
-    private JPanel bettingContainer;
+    private JPanel titlePanel;
+    private JPanel moneyPanel;
+    private JPanel bettingFieldsPanel;
     private JComboBox<Horse> horseSelectComboBox;
     private JLabel betAmountLabel;
     private JLabel moneyDisplayLabel;
@@ -19,18 +19,71 @@ public class BettingGUI {
     private JLabel betAmountCounter;
     private JSlider betAmountSlider;
     private JTextField betAmountTextField;
-    private JPanel submitPanel;
+    private JPanel submitButtonPanel;
     private JButton submitButton;
     private JLabel bettingOddsLabel;
     private JLabel oddsLabel;
     private JTextArea bettingHistory;
 
 
-    BettingGUI(Race race, User user)
+    void setUI(User user, Race race)
     {
-        //Creating Custom Components
-        moneyDisplayLabel.setText(Integer.toString(user.getMoney()));
+        //Betting Panel
+        bettingPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints bettingPanelGbc = new GridBagConstraints();
+        bettingPanelGbc.insets = new Insets(5, 30, 5, 30);
 
+
+
+        //Title Panel
+        titlePanel = new JPanel(new GridBagLayout());
+        GridBagConstraints titlePanelGbc = new GridBagConstraints();
+
+        //Add titleLabel to titlePanel
+        JLabel titleLabel = new JLabel("Betting");
+        titleLabel.setFont(new Font("Arial Black", Font.BOLD, 24));
+        titlePanelGbc.gridx = 0;
+        titlePanelGbc.gridy = 0;
+        titlePanel.add(titleLabel, titlePanelGbc);
+
+        //Add titlePanel to bettingPanel
+        bettingPanelGbc.gridx = 0;
+        bettingPanelGbc.gridy = 0;
+        bettingPanel.add(titlePanel, bettingPanelGbc);
+
+        //Money Panel
+        moneyPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints moneyPanelGbc = new GridBagConstraints();
+
+
+        //Add moneyAvailableLabel and display to moneyPanel
+        moneyAvailableLabel = new JLabel("Money Available: ");
+        moneyPanelGbc.gridx = 0;
+        moneyPanelGbc.gridy = 0;
+        moneyPanel.add(moneyAvailableLabel, moneyPanelGbc);
+
+        moneyDisplayLabel = new JLabel(Integer.toString(user.getMoney()));
+        moneyPanelGbc.gridx = 1;
+        moneyPanel.add(moneyDisplayLabel, moneyPanelGbc);
+
+        //Add moneyPanel to bettingPanel
+        bettingPanelGbc.gridx = 0;
+        bettingPanelGbc.gridy = 1;
+        bettingPanel.add(moneyPanel, bettingPanelGbc);
+
+        //Betting Fields Panel
+        bettingFieldsPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints bettingFieldsPanelGbc = new GridBagConstraints();
+        bettingFieldsPanelGbc.fill = GridBagConstraints.HORIZONTAL;
+        bettingFieldsPanelGbc.insets = new Insets(5, 0,5, 0);
+
+        //Add horseSelectLabel and comboBox to bettingFieldsPanel
+        horseSelectLabel = new JLabel("Select Horse: ");
+        bettingFieldsPanelGbc.gridx = 0;
+        bettingFieldsPanelGbc.gridy = 0;
+        bettingFieldsPanel.add(horseSelectLabel, bettingFieldsPanelGbc);
+
+        horseSelectComboBox = new JComboBox<>();
         for(Horse horse: race.getHorses())
         {
             horseSelectComboBox.addItem(horse);
@@ -41,9 +94,76 @@ public class BettingGUI {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
                 Horse horse = (Horse) value;
                 label.setText(horse.getName());
+                label.setIcon(horse.getColouredBreedIcon());
                 return label;
             }
         });
+        bettingFieldsPanelGbc.gridx = 1;
+        bettingFieldsPanelGbc.gridy = 0;
+        bettingFieldsPanel.add(horseSelectComboBox, bettingFieldsPanelGbc);
+
+        //Add betAmountTextField to bettingFieldsPanel
+        bettingOddsLabel = new JLabel("Betting Odds: ");
+        bettingFieldsPanelGbc.gridx = 0;
+        bettingFieldsPanelGbc.gridy = 1;
+        bettingFieldsPanel.add(bettingOddsLabel, bettingFieldsPanelGbc);
+
+        oddsLabel = new JLabel("1:1"); // Default odds
+        oddsLabel.setHorizontalAlignment(SwingConstants.CENTER);
+        bettingFieldsPanelGbc.gridx = 1;
+        bettingFieldsPanelGbc.gridy = 1;
+        bettingFieldsPanel.add(oddsLabel, bettingFieldsPanelGbc);
+
+
+        //Add betAmountLabel and slider and counter to bettingFieldsPanel
+        betAmountLabel = new JLabel("Bet Amount: ");
+        bettingFieldsPanelGbc.gridx = 0;
+        bettingFieldsPanelGbc.gridy = 2;
+        bettingFieldsPanel.add(betAmountLabel, bettingFieldsPanelGbc);
+
+        betAmountSlider = new JSlider(0, user.getMoney(), 0);
+        betAmountSlider.setMajorTickSpacing(100);
+        betAmountSlider.setPaintTicks(true);
+        bettingFieldsPanelGbc.gridx = 1;
+        bettingFieldsPanelGbc.gridy = 2;
+        bettingFieldsPanel.add(betAmountSlider, bettingFieldsPanelGbc);
+
+        betAmountCounter = new JLabel(Integer.toString(betAmountSlider.getValue()));
+        betAmountSlider.setPreferredSize(new Dimension(50, betAmountCounter.getPreferredSize().height));
+        bettingFieldsPanelGbc.gridx = 2;
+        bettingFieldsPanelGbc.gridy = 2;
+        bettingFieldsPanel.add(betAmountCounter, bettingFieldsPanelGbc);
+
+        //Add bettingFieldsPanel to bettingPanel
+        bettingPanelGbc.gridx = 0;
+        bettingPanelGbc.gridy = 2;
+        bettingPanel.add(bettingFieldsPanel, bettingPanelGbc);
+
+        //submitButton Panel
+        submitButtonPanel = new JPanel(new GridBagLayout());
+        GridBagConstraints submitButtonPanelGbc = new GridBagConstraints();
+
+        //add submitButton to submitButtonPanel
+        submitButton = new JButton("Submit");
+        submitButtonPanelGbc.gridx = 0;
+        submitButtonPanelGbc.gridy = 0;
+        submitButtonPanel.add(submitButton, submitButtonPanelGbc);
+
+        //add changeButtonPanel to changeTrackPanel
+        bettingPanelGbc.gridx = 0;
+        bettingPanelGbc.gridy = 3;
+        bettingPanel.add(submitButtonPanel, bettingPanelGbc);
+
+        //add history
+        bettingHistory = new JTextArea(createHistory(user));
+        bettingPanelGbc.gridx = 0;
+        bettingPanelGbc.gridy = 4;
+        bettingPanel.add(bettingHistory, bettingPanelGbc);
+    }
+    BettingGUI(Race race, User user)
+    {
+        setUI(user, race);
+        //Creating Custom Components
         horseSelectComboBox.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -54,8 +174,6 @@ public class BettingGUI {
             }
         });
 
-        betAmountSlider.setMaximum(user.getMoney());
-        betAmountSlider.setMinimum(0);
         betAmountSlider.addChangeListener(new ChangeListener() {
             @Override
             //Display for slider
@@ -64,24 +182,6 @@ public class BettingGUI {
             }
         });
 
-        betAmountTextField.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                try {
-                    if (betAmountSlider.getValue() > user.getMoney() || betAmountSlider.getValue() < 0) {
-                        JOptionPane.showMessageDialog(bettingPanel, "Bet amount must be between 0 and " + user.getMoney());
-                        betAmountTextField.setText(Integer.toString(betAmountSlider.getValue()));
-                        betAmountSlider.setValue(betAmountSlider.getValue());
-                    }
-                    else {
-                            betAmountSlider.setValue(Integer.parseInt(betAmountTextField.getText()));
-                    }
-                } catch (Exception f) {
-                    JOptionPane.showMessageDialog(bettingPanel, "Invalid input. Please enter a valid number.");
-                    betAmountTextField.setText("0");
-                }
-            }
-        });
 
         submitButton.addActionListener(new ActionListener() {
             @Override
@@ -130,6 +230,7 @@ public class BettingGUI {
                         }
 
                         //Update bettingHistory and allow betting for the next race
+                        betAmountSlider.setMaximum(user.getMoney());
                         bettingHistory.setText(createHistory(user));
                         frame.pack();
                         submitButton.setEnabled(true);
@@ -138,8 +239,6 @@ public class BettingGUI {
                 }).start();
             }
         });
-
-        bettingHistory.setText(createHistory(user));
 
         //Initialise Frame
         RaceFrameHandler.initialiseDisposableFrame(frame, bettingPanel);
@@ -168,7 +267,7 @@ public class BettingGUI {
             }
             else
             {
-                history += "Bet amount: " + user.getMoneyHistory().get(i) + " - Outcome: Lose - Money: " + user.getMoneyHistory().get(i) + "\n";
+                history += "Bet amount: " + user.getBetAmountHistory().get(i) + " - Outcome: Lose - Money: " + user.getMoneyHistory().get(i) + "\n";
             }
         }
         return history;
