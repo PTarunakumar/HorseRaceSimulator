@@ -220,6 +220,14 @@ public class RaceGUI {
             }
         }
         addTrackToHistory(race.getTrackType());
+
+        for (Horse horse: race.getHorses())
+        {
+            horse.goBackToStart();
+        }
+
+        SwingUtilities.invokeLater(() -> printRace(race));
+
         race.setFinished(false);
     }
 
