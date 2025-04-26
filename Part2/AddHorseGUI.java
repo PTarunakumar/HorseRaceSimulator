@@ -2,6 +2,8 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import javax.swing.*;
+import javax.swing.event.ChangeEvent;
+import javax.swing.event.ChangeListener;
 
 public class AddHorseGUI extends JDialog{
     private Horse horse;
@@ -85,9 +87,15 @@ public class AddHorseGUI extends JDialog{
         horseFieldPanel.add(confidenceLabel, horseFieldPanelGbc);
 
         confidenceSlider = new JSlider(10, 100, 50);
-        confidenceSlider.setMajorTickSpacing(25);
+        confidenceSlider.setMajorTickSpacing(10);
+        confidenceSlider.setPaintTicks(true);
         horseFieldPanelGbc.gridx = 1;
         horseFieldPanel.add(confidenceSlider, horseFieldPanelGbc);
+
+        JLabel confidenceCounter = new JLabel(Double.toString((double) confidenceSlider.getValue() / 100));
+        confidenceCounter.setPreferredSize(new Dimension(30, confidenceCounter.getPreferredSize().getSize().height));
+        horseFieldPanelGbc.gridx = 2;
+        horseFieldPanel.add(confidenceCounter, horseFieldPanelGbc);
 
         // add breedLabel and ComboBox to horseFieldPanel
         breedLabel = new JLabel("Breed:");
@@ -158,6 +166,13 @@ public class AddHorseGUI extends JDialog{
         addPanelGbc.gridy = 2;
         addPanel.add(addButtonPanel, addPanelGbc);
 
+        confidenceSlider.addChangeListener(new ChangeListener() {
+            @Override
+            public void stateChanged(ChangeEvent e) {
+                confidenceCounter.setText(Double.toString((double) confidenceSlider.getValue() / 100));
+            }
+        });
+
         addButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -174,6 +189,16 @@ public class AddHorseGUI extends JDialog{
                 {
                     symbolTextField.revalidate();
                     JOptionPane.showMessageDialog(null, "Breed cannot be empty", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+                else if (!accessoryValidate())
+                {
+                    accessoryComboBox.revalidate();
+                    JOptionPane.showMessageDialog(null, "Accessory cannot be empty");
+                }
+                else if (!colourValidate())
+                {
+                    horseCoatColorChooser.revalidate();
+                    JOptionPane.showMessageDialog(null, "This color is not allowed");
                 }
                 else
                 {
@@ -212,6 +237,9 @@ public class AddHorseGUI extends JDialog{
         return !breedComboBox.getSelectedItem().toString().equals(" ");
     }
 
+    private boolean accessoryValidate() {return !accessoryComboBox.getSelectedItem().toString().equals(" ");}
+
+    private boolean colourValidate() {return !horseCoatColorChooser.getColor().equals(Color.WHITE);}
     private double calculateConfidence(int confidence)
     {
         return (double)confidence / 100;
