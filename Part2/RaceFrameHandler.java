@@ -27,6 +27,23 @@ public class RaceFrameHandler {
         dialog.setVisible(true);
     }
 
+    static public void initialiseDisposableDialog(JDialog dialog, JPanel startPanel)
+    {
+        startPanel.registerKeyboardAction(new ActionListener() {
+            public void actionPerformed(ActionEvent e) {
+                dialog.dispose();
+            }
+        }, KeyStroke.getKeyStroke("ESCAPE"), JComponent.WHEN_ANCESTOR_OF_FOCUSED_COMPONENT);
+
+
+        dialog.setContentPane(startPanel);
+        dialog.setDefaultCloseOperation(WindowConstants.DO_NOTHING_ON_CLOSE);
+        dialog.pack();
+        dialog.setLocationRelativeTo(null);
+        dialog.setModal(true);
+        dialog.setVisible(true);
+    }
+
     static public void initialiseFrame(JFrame frame, JPanel startPanel)
     {
         frame.setContentPane(startPanel);
