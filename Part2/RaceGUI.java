@@ -9,6 +9,7 @@ import java.util.concurrent.TimeUnit;
 
 public class RaceGUI {
     private JPanel trackDetailPanel;
+    private User user;
     private JLabel tracktypeLabel;
     private JLabel trackLengthLabel;
     private Race race;
@@ -33,6 +34,7 @@ public class RaceGUI {
     RaceGUI(Race race)
     {
         this.race = race;
+        user = new User(1100);
 
         //Race Panel
         racePanel = new JPanel(new GridBagLayout());
@@ -89,7 +91,7 @@ public class RaceGUI {
         bettingButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                new BettingGUI(race, new User("PT", 1100));
+                new BettingGUI(race,user);
             }
         });
 
