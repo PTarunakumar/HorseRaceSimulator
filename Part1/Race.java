@@ -344,8 +344,8 @@ public class Race
         while (!validInput)
         {
             try {
-                confidence = Double.parseDouble(askString("Enter the confidence of the horse (0.0 - 1.0):"));
-                if (confidence >= 0 && confidence <= 1)
+                confidence = Double.parseDouble(askString("Enter the confidence of the horse (decimal between 1 and 0):"));
+                if (confidence > 0 && confidence <= 1)
                 {
                     validInput = true;
                 }
