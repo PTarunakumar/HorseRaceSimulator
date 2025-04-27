@@ -115,7 +115,7 @@ public class AddTrackGUI extends JDialog{
                 }
                 else if (!lengthValidate())
                 {
-                    JOptionPane.showMessageDialog(null, "Please enter a valid length", "Error", JOptionPane.ERROR_MESSAGE);
+                    JOptionPane.showMessageDialog(null, "Please enter a valid length between 1 and 60 inclusive", "Error", JOptionPane.ERROR_MESSAGE);
                 }
                 else if (!laneCountValidate()) {
                     JOptionPane.showMessageDialog(null, "Please select a track type", "Error", JOptionPane.ERROR_MESSAGE);
@@ -151,7 +151,7 @@ public class AddTrackGUI extends JDialog{
         try
         {
             int length = Integer.parseInt(lengthTextField.getText());
-            if (length <= 0 || length >= 1000)
+            if (length < 1 || length > 60)
             {
                 return false;
             }

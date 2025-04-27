@@ -191,7 +191,7 @@ public class BettingGUI {
 
                     //Disable submit button and reduce money
                     SwingUtilities.invokeLater(() -> {
-                        JOptionPane.showMessageDialog(null, "You have placed a bet of " + betAmount + " on " + horseBettedOn.getName() + " with potential winnings of " + toTwoDecimalPlace(betAmount * bettingOdds));
+                        JOptionPane.showMessageDialog(null, "You have placed a bet of " + betAmount + " on " + horseBettedOn.getName() + " with potential winnings of " + (int) (betAmount * bettingOdds));
                         submitButton.setEnabled(false);
                         user.setMoney(user.getMoney() - betAmount);
                         moneyDisplayLabel.setText(Integer.toString(user.getMoney()));
