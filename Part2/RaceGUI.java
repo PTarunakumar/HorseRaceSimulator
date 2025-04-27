@@ -40,7 +40,7 @@ public class RaceGUI {
         racePanelGbc.insets = new Insets(5, 30, 5, 30);
 
         //Track Panel
-        trackPanel = new JPanel(new GridLayout(race.getLaneCount(), 1));
+        trackPanel = new JPanel(new GridBagLayout());
         horseLabels = new ArrayList<>(race.getLaneCount());
 
         //Generate Lanes for Horses
@@ -77,6 +77,7 @@ public class RaceGUI {
                 }
                 else
                 {
+                    generateTrack();
                     raceThread = new Thread(() -> startRace(race));
                     raceThread.start();
                 }
@@ -145,12 +146,15 @@ public class RaceGUI {
         }
 
         //Generate Lanes for Horses
-        for (Horse horse : race.getHorses()) {
-            JPanel horsePanel = new JPanel(null);
-            horsePanel.setBackground(Color.WHITE);
-            horsePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+        int count = 0;
+        GridBagConstraints trackPanelGbc = new GridBagConstraints();
 
-            horsePanel.setPreferredSize(new Dimension(TRACK_DISTANCE + ICON_SIZE, ICON_SIZE));
+        for (Horse horse : race.getHorses()) {
+            JPanel lanePanel = new JPanel(null);
+            lanePanel.setBackground(Color.WHITE);
+            lanePanel.setBorder(BorderFactory.createLineBorder(Color.BLUE));
+
+            lanePanel.setPreferredSize(new Dimension(TRACK_DISTANCE + ICON_SIZE, ICON_SIZE));
             JLabel horseLabel = new JLabel(scaleImage(horse.getColouredBreedIcon()));
             horseLabel.setBounds(0, 0, ICON_SIZE, ICON_SIZE);
             horseLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
@@ -160,10 +164,31 @@ public class RaceGUI {
             horseSymbolLabel.setPreferredSize(new Dimension(ICON_SIZE, ICON_SIZE));
             horseSymbolLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
-            horsePanel.add(horseLabel);
-            horsePanel.add(horseSymbolLabel);
-            trackPanel.add(horsePanel);
+            lanePanel.add(horseLabel);
+            lanePanel.add(horseSymbolLabel);
+
+            trackPanelGbc.gridx = 0;
+            trackPanelGbc.gridy = count;
+            trackPanel.add(lanePanel, trackPanelGbc);
+
+            //Horse Statistics Panel
+            JPanel horseStatsPanel = new JPanel(new GridBagLayout());
+            GridBagConstraints horseStatsPanelGbc = new GridBagConstraints();
+            horseStatsPanelGbc.insets = new Insets(2, 5, 2, 5);
+            horseStatsPanelGbc.anchor = GridBagConstraints.WEST;
+
+            JLabel horseNameLabel = new JLabel("Name: " + horse.getName());
+            horseStatsPanel.add(horseNameLabel, horseStatsPanelGbc);
+
+            horseStatsPanelGbc.gridy = 1;
+            JLabel horseConfidenceLabel = new JLabel(String.format("Confidence: %.2f", horse.getConfidence()));
+            horseStatsPanel.add(horseConfidenceLabel, horseStatsPanelGbc);
+
+            trackPanelGbc.gridx = 1;
+            trackPanel.add(horseStatsPanel, trackPanelGbc);
+
             horseLabels.add(horseLabel);
+            count++;
         }
 
         if (tracktypeLabel != null && trackLengthLabel != null)

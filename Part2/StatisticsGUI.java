@@ -66,7 +66,7 @@ public class StatisticsGUI {
                 JLabel label = (JLabel) super.getListCellRendererComponent(list, value, index, isSelected, hasFocus);
                 if (value instanceof Horse horse) {
                     label.setText(horse.getName());
-                    label.setIcon(horse.getBreedIcon());
+                    label.setIcon(horse.getColouredBreedIcon());
                 }
                 return label;
             }
