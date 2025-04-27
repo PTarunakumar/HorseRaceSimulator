@@ -25,7 +25,6 @@ public class Race
         // initialise instance variables
         raceLength = distance;
         horses = new Horse[3];
-
     }
 
     /**
@@ -55,13 +54,17 @@ public class Race
     public void startRace()
     {
         //Adding horses to the race
-        Horse horse1 = new Horse('1', "Horse1", 0.9);
-        Horse horse2 = new Horse('2', "Horse2", 0.7);
-        Horse horse3 = new Horse('3', "horse3", 0.8);
+        int horseCount = askHorseCount();
 
-        addHorse(horse1, 1);
-        addHorse(horse2, 2);
-        addHorse(horse3, 3);
+        for (int i = 0; i < horseCount; i++)
+        {
+            System.out.println("--------------------------");
+            String name = askName();
+            char symbol = askSymbol();
+            double confidence = askConfidence();
+            horses[i] = new Horse(symbol, name, confidence);
+            addHorse(horses[i], i + 1);
+        }
 
         do {
             raceLoop();
@@ -218,7 +221,7 @@ public class Race
         {
             spacesBefore = theHorse.getDistanceTravelled();
             spacesAfter = raceLength - theHorse.getDistanceTravelled();
-            confidenceDisplay = "   (Confidence: " + toTwoDecimalPlace(theHorse.getConfidence()) + ")";
+            confidenceDisplay = "   Name: " + theHorse.getName() + "  Confidence: " + toTwoDecimalPlace(theHorse.getConfidence());
         }
 
         //print a | for the beginning of the lane
@@ -289,5 +292,79 @@ public class Race
     public double toTwoDecimalPlace(double num)
     {
         return (double) Math.round(num * 100) / 100;
+    }
+
+    private int askHorseCount()
+    {
+        Scanner scanner = new Scanner(System.in);
+        int horseCount = 0;
+        boolean validInput = false;
+
+        while (!validInput)
+        {
+            System.out.println("Enter the number of horses (1-3):");
+
+            try {
+                horseCount = Integer.parseInt(scanner.nextLine());
+                if (horseCount >= 1 && horseCount <= 3)
+                {
+                    validInput = true;
+                }
+                else
+                {
+                    System.out.println("Please enter a number between 1 and 3.");
+                }
+            } catch (NumberFormatException e)
+            {
+                System.out.println("Invalid input. Please enter an integer.");
+            }
+        }
+        return horseCount;
+    }
+
+    private String askName()
+    {
+        String name = askString("Enter the name of the horse:");
+        System.out.println("----------");
+        return name;
+    }
+
+    private char askSymbol()
+    {
+        String symbol = askString("Enter a symbol for the horse:");
+        System.out.println("----------");
+        return symbol.charAt(0);
+    }
+
+    private double askConfidence()
+    {
+        double confidence = 0;
+        boolean validInput = false;
+
+        while (!validInput)
+        {
+            try {
+                confidence = Double.parseDouble(askString("Enter the confidence of the horse (0.0 - 1.0):"));
+                if (confidence >= 0 && confidence <= 1)
+                {
+                    validInput = true;
+                }
+                else
+                {
+                    System.out.println("Please enter a number between 0.0 and 1.0.");
+                }
+            } catch (NumberFormatException e)
+            {
+                System.out.println("Invalid input. Please enter a number.");
+            }
+        }
+        System.out.println("----------");
+        return confidence;
+    }
+
+    private String askString(String message)
+    {
+        System.out.println(message);
+        return new Scanner(System.in).nextLine();
     }
 }
